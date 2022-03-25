@@ -1,0 +1,4 @@
+/vendor
+.env
+/dumps
+docker-compose.yaml

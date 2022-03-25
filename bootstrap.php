@@ -7,13 +7,17 @@ use App\Database\Connection;
 use App\Classes\Post;
 use App\Classes\QueryBuilder;
 use App\Classes\User;
+use Dotenv\Dotenv;
+
+$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
 
 $db = Connection::connect([
-    "host"=>"localhost",
-    "user"=>"root",
-    "password"=>"",
-    "dbname"=>"blog"
+    "host"      => $_ENV['DB_HOST'],
+    "user"      => $_ENV['DB_USER'],
+    "password"  => $_ENV['DB_PASSWORD'],
+    "dbname"    => $_ENV['DB_NAME'],
 ]);
 
 
