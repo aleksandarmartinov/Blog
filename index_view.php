@@ -27,14 +27,7 @@
             <?php echo $user->getUserWithId($post->user_id)->name; ?>
                 <div class="card mb-3">
                 <div class="card-header">
-                <h3>
-                    <?php echo $post->title; ?>
-                    <small class="float-right">
-                        <?php if(isset($_SESSION['logged_user']) && $post->user_id == $_SESSION['logged_user']->id): ?>
-                        <a href="index.php?post_id=<?php echo $post->id; ?>" class="btn btn-sm btn-danger">Remove</a>
-                        <?php endif; ?>
-                    </small>
-                </h3>
+                <h3><?php echo $post->title; ?></h3>
                 </div>
                 <div class="card-body">
                     <p><?php echo $post->description; ?></p>

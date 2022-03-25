@@ -2,7 +2,6 @@
 require_once 'bootstrap.php';
 
 
-// ????????
 if (!isset($_SESSION['logged_user'])){
     header("Location: index.php");
 }
@@ -11,7 +10,7 @@ if (isset($_SESSION['logged_user'])) {
     header("Location: index.php");
 }
 
-//VALIDACIJA
+
 if(isset($_POST['loginBtn'])){
 
 $email = $_POST['login_email'] = filter_var($_POST['login_email'], FILTER_SANITIZE_EMAIL); 

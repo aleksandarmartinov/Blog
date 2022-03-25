@@ -6,7 +6,7 @@
         <li>
             <?php if(isset($_SESSION['logged_user'])): ?>
                 <li><a href="index.php" class="nav-link">Naslovna</a></li>
-                <li><a href="add_post.php" class="nav-link">Dodaj Post</a></li>
+                <li><a href="add_post_view.php" class="nav-link">Dodaj Post</a></li>
                 <li><a href="logout.php" class="nav-link">Logout</a></li>
                 <li><a href="index.php" class="btn btn-warning"><?php echo $_SESSION['logged_user']->name; ?></a></li>
             <?php else: ?>
@@ -31,7 +31,7 @@
                     <?php echo $post->title; ?>
                     <small class="float-right">
                         <?php if(isset($_SESSION['logged_user']) && $post->user_id == $_SESSION['logged_user']->id): ?>
-                        <a href="index.php?post_id=<?php echo $post->id; ?>" class="btn btn-sm btn-danger">Remove</a>
+                        <a href="single_user.php?post_id=<?php echo $post->id; ?>" class="btn btn-sm btn-danger">Remove</a>
                         <?php endif; ?>
                     </small>
                 </h3>

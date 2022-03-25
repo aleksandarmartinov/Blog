@@ -11,6 +11,10 @@ if (isset($_SESSION['logged_user'])) {
 
 if(isset($_POST['registerBtn'])){
 
+    $username = $_POST['register_name'];
+    $email = $_POST['register_email'] = filter_var($_POST['register_email'], FILTER_SANITIZE_EMAIL); 
+    $password = $_POST['register_password'] = filter_var($_POST['register_password']);
+
     $errormsg_array = array();
     $error_exists = false;
 
