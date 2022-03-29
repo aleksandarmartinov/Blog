@@ -19,16 +19,15 @@
 <div class="jumbotron text-center">
     <h4>Posts</h4>
 </div>
-
 <div class="container">
     <div class="row">
         <div class="col-8 offset-2">
-            <?php foreach($posts as $post): ?>
-            <?php echo $user->getUserWithId($post->user_id)->name; ?>
+            @foreach($posts as $post)
+            {{ $user->getUserWithId($post->user_id)->name }}
                 <div class="card mb-3">
                 <div class="card-header">
                 <h3>
-                    <?php echo $post->title; ?>
+                    {{ $post->title }}
                     <small class="float-right">
                         <?php if(isset($_SESSION['logged_user']) && $post->user_id == $_SESSION['logged_user']->id): ?>
                         <a href="index.php?post_id=<?php echo $post->id; ?>" class="btn btn-sm btn-danger">Remove</a>
@@ -48,7 +47,7 @@
                     </button>
                 </div>
             </div>
-            <?php endforeach; ?>
+            @endforeach
         </div>
     </div>
 </div>
