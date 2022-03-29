@@ -1,7 +1,4 @@
 <?php 
-session_start();
-
-require __DIR__ . '/vendor/autoload.php';
 
 use App\Database\Connection;
 use App\Classes\Post;
