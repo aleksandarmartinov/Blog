@@ -1,5 +1,4 @@
 <?php 
-require_once 'bootstrap.php';
 
 
 if (!isset($_SESSION['logged_user'])){
@@ -13,7 +12,7 @@ if (isset($_SESSION['logged_user'])) {
 
 if(isset($_POST['loginBtn'])){
 
-$email = $_POST['login_email'] = filter_var($_POST['login_email'], FILTER_SANITIZE_EMAIL); 
+$email = $_POST['login_email'] = filter_var($_POST['login_email'], FILTER_VALIDATE_EMAIL); 
 $password = $_POST['login_password'] = filter_var($_POST['login_password']);
 
 $errormsg_array = array();

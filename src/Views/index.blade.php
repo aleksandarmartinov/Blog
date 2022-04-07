@@ -23,29 +23,27 @@
 <div class="container">
     <div class="row">
         <div class="col-8 offset-2">
-            <?php foreach($posts as $post): ?>
-            <?php echo $user->getUserWithId($post->user_id)->name; ?>
+            @foreach($posts as $post)
+            {{ $user->getUserWithId($post->user_id)->name }}
                 <div class="card mb-3">
                 <div class="card-header">
-                <h3><?php echo $post->title; ?></h3>
+                <h3>{{ $post->title }}</h3>
                 </div>
                 <div class="card-body">
-                    <p><?php echo $post->description; ?></p>
+                    <p>{{ $post->description }}</p>
                 </div>
                 <div class="card-footer">
                     <button class="btn btn-info btn-sm float-right">
-                        <?php $date = date_create($post->created_at); echo date_format($date,"Y-m-d"); ?>
+                        {{ date_format(date_create($post->created_at),"Y-m-d") }}
                     </button>
                     <button class="btn btn-warning btn-sm float-left">
-                        <?php echo $user->getUserWithId($post->user_id)->name; ?>
+                        {{ $user->getUserWithId($post->user_id)->name }}
                     </button>
                 </div>
             </div>
-            <?php endforeach; ?>
+            @endforeach
         </div>
     </div>
 </div>
 <?php require_once 'partials/bottom.php'; ?>
 
-
-    
