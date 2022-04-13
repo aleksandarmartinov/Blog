@@ -3,3 +3,4 @@
 /dumps
 docker-compose.yaml
 .idea/
+/src/cache
