@@ -2,4 +2,6 @@
 .env
 /dumps
 docker-compose.yaml
-/cache
+.idea/
+/src/cache
+
