@@ -1,7 +1,7 @@
 <?php 
 session_start(); 
 
-require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 
 use App\Database\Connection;
@@ -12,7 +12,7 @@ use Dotenv\Dotenv;
 use Bramus\Router\Router;
 use Jenssegers\Blade\Blade;
 
-$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv = Dotenv::createImmutable(__DIR__ . "/../");
 $dotenv->load();
 
 
@@ -26,7 +26,6 @@ $db = Connection::connect([
 
 // Create Router and other instances
 $router = new Router();
-$blade = new Blade('src/views', 'src/cache');
 
 // Define routes
 $router->get('/', '\App\Controllers\IndexController@index');

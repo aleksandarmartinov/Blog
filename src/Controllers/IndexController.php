@@ -2,8 +2,6 @@
 
 namespace App\Controllers;
 
-use Jenssegers\Blade\Blade;
-
 use App\Controllers\MainController;
 use App\Database\Connection;
 use App\Classes\Post;

@@ -10,6 +10,6 @@ class MainController {
 
     public function __construct() 
     {
-        $this->blade = new Blade('src/views', 'src/cache');
+        $this->blade = new Blade('../src/views', '../src/cache');
     }
 }
