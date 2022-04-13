@@ -7,10 +7,10 @@
             <?php if(isset($_SESSION['logged_user'])): ?>
                 <li><a href="add_post_view.php" class="nav-link">Dodaj Post</a></li>
                 <li><a href="logout.php" class="nav-link">Logout</a></li>
-                <li><a href="single_user.php" class="btn btn-warning"><?php echo $_SESSION['logged_user']->name; ?></a></li>
+                <li><a href="single_user.php" class="btn btn-warning"><?php echo e($_SESSION['logged_user']->name); ?></a></li>
             <?php else: ?>
                 <li><a href="login_view.php" class="nav-link">Login</a></li>
-                <li><a href="register_view.php" class="nav-link">Register</a></li>
+                <li><a href="/register" class="nav-link">Register</a></li>
             <?php endif; ?>
         </li>
     </ul>

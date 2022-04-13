@@ -24,15 +24,14 @@ $db = Connection::connect([
 ]);
 
 
-// Create Router instance
+// Create Router and other instances
 $router = new Router();
 $blade = new Blade('src/views', 'src/cache');
 
 // Define routes
-$router->get('/', '\App\Controllers\indexController@index');
-// $router->get('/', function() use($blade) {
-//     echo $blade->make('index', ['posts' => []])->render();
-// });
+$router->get('/', '\App\Controllers\IndexController@index');
+$router->get('/register', '\App\Controllers\UserController@registerView');
+$router->post('/register', '\App\Controllers\UserController@registerUser');
 
 
 $router->run();

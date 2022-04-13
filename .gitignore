@@ -2,3 +2,4 @@
 .env
 /dumps
 docker-compose.yaml
+/cache
