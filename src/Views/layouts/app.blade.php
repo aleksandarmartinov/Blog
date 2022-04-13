@@ -9,6 +9,7 @@
     integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
 </head>
 <body>
-@yield('content')
+    @include('partials.menu')
+    @yield('content')
 </body>
 </html>
