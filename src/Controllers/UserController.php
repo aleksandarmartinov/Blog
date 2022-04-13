@@ -31,9 +31,9 @@ class UserController extends MainController {
         $query = new QueryBuilder($db);
         $user = new User($db);
 
-        
+    
         if(isset($_POST['registerBtn'])){
-        
+       
             $username = $_POST['register_name'];
             $email = $_POST['register_email'] = filter_var($_POST['register_email'], FILTER_VALIDATE_EMAIL); 
             $password = $_POST['register_password'] = filter_var($_POST['register_password']);
@@ -60,18 +60,20 @@ class UserController extends MainController {
                 $errormsg_array[] = "Please type your username correctly";
                 $error_exists = true;
             }
-        
+
             if ($error_exists) {
                 $_SESSION['ERROR_MESSAGE'] = $errormsg_array;
                 session_write_close();
-                header("index");
+                header("Location: /");
                 exit();
              }else{
                 $user->registerUser();
-                header("/index");
+                header("Location: /");
+                exit();
              }
         
         }
+
     }
 }
     

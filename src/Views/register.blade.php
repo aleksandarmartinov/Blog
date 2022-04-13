@@ -1,14 +1,6 @@
-<?php require_once 'partials/top.php'; ?>
+@extends('layouts/app')
 
-<nav class="navbar navbar-expand navbar-light bg-light">
-    <a href="/" class="navbar-brand">Blogger</a>
-    <ul class="navbar-nav ml-auto">
-        <li>
-            <a href="index.php" class="nav-item">Back to Blog</a>
-        </li>
-    </ul>
-</nav>
-
+@section('content')
 
 <div class="jumbotron text-center">
     <h4>Register</h4>
@@ -36,5 +28,5 @@
         </div>
     </div>
 </div>
-
-<?php require_once 'partials/bottom.php'; ?>
+   
+@endsection
