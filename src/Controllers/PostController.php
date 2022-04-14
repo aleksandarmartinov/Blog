@@ -12,7 +12,11 @@ class PostController extends MainController {
 
     public function postView() {
 
-        echo $this->blade->make('add_post', [])->render();
+        if (isset($_SESSION['logged_user'])) {
+            echo $this->blade->make('add_post', [])->render();
+        }else{
+            header("Location: /");
+        }
     }
 
     public function createPost() {
@@ -34,8 +38,6 @@ class PostController extends MainController {
     
     public function singleUserPosts() {
 
-        echo $this->blade->make('user', [])->render();
-
         $db = Connection::connect([
             "host"      => $_ENV['DB_HOST'],
             "user"      => $_ENV['DB_USER'],
@@ -47,12 +49,13 @@ class PostController extends MainController {
 
         if (isset($_SESSION['logged_user'])) {
             $posts = $post->singleUserAds($_SESSION['logged_user']->id);
+            echo $this->blade->make('user', ['posts' => $posts])->render();
         }else{
             header ("Location: /");
         }
     }
 
-    public function deletePost() {
+    public function deletePost($id) {
 
         $db = Connection::connect([
             "host"      => $_ENV['DB_HOST'],

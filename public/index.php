@@ -30,10 +30,13 @@ $router->get('/register', '\App\Controllers\UserController@registerView');
 $router->post('/register', '\App\Controllers\UserController@registerUser');
 $router->get('/login', '\App\Controllers\UserController@loginView');
 $router->post('/login', '\App\Controllers\UserController@loginUser');
-$router->get('/logout', '\App\Controllers\UserController@logout');
 $router->get('/add_post', '\App\Controllers\PostController@postView');
 $router->post('/add_post', '\App\Controllers\PostController@createPost');
-$router->post('/user', '\App\Controllers\PostController@singleUserPosts');
+$router->get('/user', '\App\Controllers\PostController@singleUserPosts');
+
+$router->get('/user{id}/delete', '\App\Controllers\PostController@deletePost');
+
+$router->get('/logout', '\App\Controllers\UserController@logout');
 
 
 

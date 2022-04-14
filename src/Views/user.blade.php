@@ -5,20 +5,20 @@
 @section('content')
 
 <div class="jumbotron text-center">
-    {{-- <h4>Posts of {{echo $_SESSION['logged_user']->name}}</h4> --}}
+    <h4>Posts of {{ $_SESSION['logged_user']->name }}</h4>
 </div>
 
 <div class="container">
     <div class="row">
         <div class="col-8 offset-2">
-            @foreach($posts as $post): ?>
+            @foreach($posts as $post)
                 <div class="card mb-3">
                 <div class="card-header">
                 <h3>
                     {{$post->title;}}
                     <small class="float-right">
                         @if(isset($_SESSION['logged_user']) && $post->user_id == $_SESSION['logged_user']->id)
-                        <a href="single_user.php?post_id={{$post->id}}" class="btn btn-sm btn-danger">Remove</a>
+                        <a href="/user?={{ $post->id }}" class="btn btn-sm btn-danger">Remove</a>
                         @endif
                     </small>
                 </h3>
