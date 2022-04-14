@@ -1,7 +1,8 @@
 @extends('layouts/app')
 
-@section('content')
+@include('partials.navbar')
 
+@section('content')
 
     <div class="jumbotron text-center">
         <h4>Posts</h4>

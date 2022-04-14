@@ -6,7 +6,7 @@
         <li>
             <?php if(isset($_SESSION['logged_user'])): ?>
                 <li><a href="index.php" class="nav-link">Naslovna</a></li>
-                <li><a href="add_post_view.php" class="nav-link">Dodaj Post</a></li>
+                <li><a href="add_post.php" class="nav-link">Dodaj Post</a></li>
                 <li><a href="logout.php" class="nav-link">Logout</a></li>
                 <li><a href="index.php" class="btn btn-warning"><?php echo $_SESSION['logged_user']->name; ?></a></li>
             <?php else: ?>
