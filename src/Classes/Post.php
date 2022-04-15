@@ -37,5 +37,3 @@ class Post extends QueryBuilder {
         
     }
 }
-
-?>

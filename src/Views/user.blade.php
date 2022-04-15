@@ -17,7 +17,6 @@
                 <h3>
                 {{$post->title;}}
                 <form action="/post/{{ $post->id }}/delete" method="POST">
-                    
                     <button type="submit" class="float-right btn btn-sm btn-danger">Remove</button>
                 </form>
                 </h3>

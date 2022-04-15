@@ -54,7 +54,7 @@ class PostController extends MainController {
         }
     }
 
-    public function deletePost() {
+    public function deletePost($id) {
 
         $db = Connection::connect([
             "host"      => $_ENV['DB_HOST'],
@@ -65,8 +65,10 @@ class PostController extends MainController {
 
         $post = new Post($db);
 
-        
-       
+        $post->deletePost($id);
+
+        header("Location: /user");
+        exit;
         
     }
 }
