@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use App\Controllers\MainController;
 use App\Database\Connection;
-use App\Classes\QueryBuilder;
 use App\Classes\Post;
 
 
@@ -55,7 +54,7 @@ class PostController extends MainController {
         }
     }
 
-    public function deletePost($id) {
+    public function deletePost() {
 
         $db = Connection::connect([
             "host"      => $_ENV['DB_HOST'],
@@ -65,10 +64,9 @@ class PostController extends MainController {
         ]);
 
         $post = new Post($db);
+
         
-        if (isset($_GET['post_id']) && isset($_SESSION['logged_user'])) {
-            $post->deletePost($_GET['post_id']);
-        }
+       
         
     }
 }

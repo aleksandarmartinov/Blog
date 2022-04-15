@@ -15,12 +15,11 @@
                 <div class="card mb-3">
                 <div class="card-header">
                 <h3>
-                    {{$post->title;}}
-                    <small class="float-right">
-                        @if(isset($_SESSION['logged_user']) && $post->user_id == $_SESSION['logged_user']->id)
-                        <a href="/user?={{ $post->id }}" class="btn btn-sm btn-danger">Remove</a>
-                        @endif
-                    </small>
+                {{$post->title;}}
+                <form action="/post/{{ $post->id }}/delete" method="POST">
+                    
+                    <button type="submit" class="float-right btn btn-sm btn-danger">Remove</button>
+                </form>
                 </h3>
                 </div>
                 <div class="card-body">

@@ -19,14 +19,6 @@ class Post extends QueryBuilder {
 
     }
 
-    public function deletePost($id) 
-    {
-        $sql = "DELETE FROM posts WHERE id = ?";
-        $query = $this->db->prepare($sql);
-        $query->execute([$id]);
-        
-    }
-
     public function singleUserAds($id)
     {
         $sql = "SELECT * FROM posts WHERE user_id= ?";
@@ -35,6 +27,14 @@ class Post extends QueryBuilder {
 
         $posts_of_user = $query->fetchAll(PDO::FETCH_OBJ);
         return $posts_of_user;
+    }
+
+    public function deletePost($id) 
+    {
+        $sql = "DELETE FROM posts WHERE id = ?";
+        $query = $this->db->prepare($sql);
+        $query->execute([$id]);
+        
     }
 }
 
