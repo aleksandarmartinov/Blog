@@ -35,7 +35,7 @@ $router->post('/add_post', '\App\Controllers\PostController@createPost');
 $router->get('/user', '\App\Controllers\PostController@singleUserPosts');
 
 $router->post('/post/{id}/delete', '\App\Controllers\PostController@deletePost');
-$router->post('/edit_post/{id}', '\App\Controllers\PostController@editPostView');
+$router->get('/edit_post/{id}', '\App\Controllers\PostController@editPostView');
 
 $router->get('/logout', '\App\Controllers\UserController@logout');
 

@@ -102,7 +102,7 @@ class PostController extends MainController {
         
     }
 
-    public function editPostView()
+    public function editPostView($id)
     {
         $db = Connection::connect([
             "host"      => $_ENV['DB_HOST'],
@@ -112,12 +112,12 @@ class PostController extends MainController {
         ]);
 
         $post = new Post($db);
-        // $post->findPostById($id);
+        $result = $post->findPostById($id, $_SESSION['logged_user']->id);
 
-        if(isset($_POST['edit'])){
-        echo $this->blade->make('edit_post', ['post'=>$post])->render();
+        if($result){
+            echo $this->blade->make('edit_post', ['post'=>$result])->render();
         }else{
-            header("Location: /");
+            return header("Location: /");
         }
     }
 

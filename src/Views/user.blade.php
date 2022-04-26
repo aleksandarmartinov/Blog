@@ -28,9 +28,7 @@
                     <button class="btn btn-info btn-sm float-right">
                         {{ date_format(date_create($post->created_at),"Y-m-d") }}
                     </button>
-                    <form action="/edit_post/{{ $post->id }}" method="POST">  
-                        <button type="submit" name="edit" class="btn btn-warning btn-sm float-left">Edit</button>
-                    </form>
+                    <a href="/edit_post/{{ $post->id }}" name="edit" class="btn btn-warning btn-sm float-left">Edit</a>
                 </div>
             </div>
             @endforeach

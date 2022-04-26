@@ -20,9 +20,8 @@
                     unset($_SESSION['ERROR_MESSAGE'])
                 @endphp               
             @endif
-            <input type="hidden" name="id" value="{{$post->id}}">
-            <input type="text" name="post_title" placeholder="Title" class="form-control" value=""><br>
-            <textarea name="post_description" placeholder="Description" colls="30" rows="10" class="form-control" value=""></textarea><br>
+            <input type="text" name="post_title" placeholder="Title" class="form-control" value="{{$post->title}}"><br>
+            <textarea name="post_description" placeholder="Description" colls="30" rows="10" class="form-control">{{$post->description}}</textarea><br>
             <button type="submit" name="editBtn" class="form-control btn btn-warning">Edit</button>
             </form>
         </div>
