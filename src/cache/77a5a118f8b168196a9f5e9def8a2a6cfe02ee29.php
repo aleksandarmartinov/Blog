@@ -16,8 +16,10 @@
 
                     <div class="card mb-3">
                     <div class="card-header">
+                    <a href="" method="GET">
                     <h3><?php echo e($post->title); ?></h3>
                     </div>
+                    </a>
                     <div class="card-body">
                         <p><?php echo e($post->description); ?></p>
                     </div>

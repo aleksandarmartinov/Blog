@@ -31,25 +31,37 @@ class UserController extends MainController {
     
         if(isset($_POST['registerBtn'])){
        
-            $username = $_POST['register_name'];
-            $email = $_POST['register_email'] = filter_var($_POST['register_email'], FILTER_VALIDATE_EMAIL); 
-            $password = $_POST['register_password'] = filter_var($_POST['register_password']);
+            $username = htmlspecialchars(stripslashes($_POST['register_name']));
+            $email = $_POST['register_email']; 
+            $password = $_POST['register_password'];
         
             $errormsg_array = array();
             $error_exists = false;
+            $pass_number = preg_match('@[0-9]@', $password);
+
         
             if ($username == '') {
-                $errormsg_array[] = "Please type in a valid username";
+                $errormsg_array[] = "Username is required";
                 $error_exists = true;
             }
         
             if ($email == '') {
-                $errormsg_array[] = "Please type in a valid email";
+                $errormsg_array[] = "Email is required";
+                $error_exists = true;
+            }
+
+            if ($password == '') {
+                $errormsg_array[] = "Password is required";
                 $error_exists = true;
             }
         
-            if ($password == '') {
-                $errormsg_array[] = "Please type in a valid password";
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
+                $errormsg_array[] = "Please type in a valid email";
+                $error_exists = true;
+            }
+
+            if(strlen($password) <=5 || !$pass_number){
+                $errormsg_array[] = "Password must be at least 5 characters and must contain at least one number";
                 $error_exists = true;
             }
         
@@ -65,7 +77,7 @@ class UserController extends MainController {
                 exit();
              }else{
                 $user->registerUser();
-                header("Location: /");
+                header("Location: /login");
                 exit();
              }
         

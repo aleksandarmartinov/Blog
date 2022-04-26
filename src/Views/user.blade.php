@@ -16,9 +16,8 @@
                 <div class="card-header">
                 <h3>
                 {{$post->title;}}
-                <form action="/post/{{ $post->id }}/delete" method="POST">
-                    
-                    <button type="submit" class="float-right btn btn-sm btn-danger">Remove</button>
+                <form action="/post/{{ $post->id }}/delete" method="POST">    
+                    <button class="float-right btn btn-sm btn-danger">Remove</button>
                 </form>
                 </h3>
                 </div>
@@ -29,6 +28,9 @@
                     <button class="btn btn-info btn-sm float-right">
                         {{ date_format(date_create($post->created_at),"Y-m-d") }}
                     </button>
+                    <form action="/edit_post/{{ $post->id }}" method="POST">  
+                        <button type="submit" name="edit" class="btn btn-warning btn-sm float-left">Edit</button>
+                    </form>
                 </div>
             </div>
             @endforeach

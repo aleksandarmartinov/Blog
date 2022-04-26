@@ -15,8 +15,10 @@
                 {{ $user->getUserWithId($post->user_id)->name }}
                     <div class="card mb-3">
                     <div class="card-header">
+                    <a href="" method="GET">
                     <h3>{{ $post->title }}</h3>
                     </div>
+                    </a>
                     <div class="card-body">
                         <p>{{ $post->description }}</p>
                     </div>

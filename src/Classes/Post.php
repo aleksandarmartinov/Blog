@@ -36,6 +36,21 @@ class Post extends QueryBuilder {
         $query->execute([$id]);
         
     }
+
+    public function findPostById($id)
+    {
+        $sql = "SELECT * FROM posts WHERE id = ?";
+        $query = $this->db->prepare($sql);
+        $query->execute([$id]);
+
+        $post = $query->fetch(PDO::FETCH_OBJ);
+        return $post;
+    }
+
+    public function editPost($id)
+    {
+        $id = $_POST['id']->id;
+    }
 }
 
 ?>
