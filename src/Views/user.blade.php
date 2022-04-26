@@ -16,8 +16,8 @@
                 <div class="card-header">
                 <h3>
                 {{$post->title;}}
-                <form action="/post/{{ $post->id }}/delete" method="POST">    
-                    <button class="float-right btn btn-sm btn-danger">Remove</button>
+                <form action="/post/{{ $post->id }}/delete" method="POST">
+                    <button type="submit" class="float-right btn btn-sm btn-danger">Remove</button>
                 </form>
                 </h3>
                 </div>

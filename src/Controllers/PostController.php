@@ -123,6 +123,9 @@ class PostController extends MainController {
 
     public function editPost($id)
     {
+
+        header("Location: /user");
+        exit;
         
     }
 }
