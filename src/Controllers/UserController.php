@@ -61,7 +61,7 @@ class UserController extends MainController {
             }
 
             if(strlen($password) <=5 || !$pass_number){
-                $errormsg_array[] = "Password must be at least 5 characters and must contain at least one number";
+                $errormsg_array[] = "Password must be at least 6 characters and must contain at least one number";
                 $error_exists = true;
             }
         
@@ -104,19 +104,19 @@ class UserController extends MainController {
         if(isset($_POST['loginBtn'])){
 
             $email = $_POST['login_email'] = filter_var($_POST['login_email'], FILTER_VALIDATE_EMAIL); 
-            $password = $_POST['login_password'] = filter_var($_POST['login_password']);
+            $password = $_POST['login_password'];
             
             $errormsg_array = array();
             $error_exists = false;
             
             
             if($email == '') {
-                $errormsg_array[] = 'Please enter your Email adress';
+                $errormsg_array[] = 'Email is srequired';
                 $error_exists = true;
             }
             
             if($password == '') {
-                $errormsg_array[] = 'Please enter your password';
+                $errormsg_array[] = 'Password is required';
                 $error_exists = true;
             }
             

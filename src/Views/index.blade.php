@@ -15,7 +15,7 @@
                 {{ $user->getUserWithId($post->user_id)->name }}
                     <div class="card mb-3">
                     <div class="card-header">
-                    <a href="" method="GET">
+                    <a href="/post/{{ $post->id }}">
                     <h3>{{ $post->title }}</h3>
                     </div>
                     </a>
@@ -26,9 +26,9 @@
                         <button class="btn btn-info btn-sm float-right">
                             {{ date_format(date_create($post->created_at),"Y-m-d") }}
                         </button>
-                        <button class="btn btn-warning btn-sm float-left">
+                        <a href="/user_posts/{{ $post->user_id }}" class="btn btn-warning btn-sm float-left">
                             {{ $user->getUserWithId($post->user_id)->name }}
-                        </button>
+                        </a>
                     </div>
                 </div>
                 @endforeach

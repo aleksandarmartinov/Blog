@@ -16,7 +16,7 @@
 
                     <div class="card mb-3">
                     <div class="card-header">
-                    <a href="" method="GET">
+                    <a href="/post/<?php echo e($post->id); ?>">
                     <h3><?php echo e($post->title); ?></h3>
                     </div>
                     </a>
@@ -28,10 +28,10 @@
                             <?php echo e(date_format(date_create($post->created_at),"Y-m-d")); ?>
 
                         </button>
-                        <button class="btn btn-warning btn-sm float-left">
+                        <a href="/user_posts/<?php echo e($post->user_id); ?>" class="btn btn-warning btn-sm float-left">
                             <?php echo e($user->getUserWithId($post->user_id)->name); ?>
 
-                        </button>
+                        </a>
                     </div>
                 </div>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

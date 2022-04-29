@@ -1,11 +1,11 @@
 @extends('layouts/app')
 
-@include('partials.navbar_user')
+@include('partials.navbar_singlepost')
 
 @section('content')
 
 <div class="jumbotron text-center">
-    <h4>Posts of {{ $_SESSION['logged_user']->name }}</h4>
+    <h4>Posts of </h4>
 </div>
 
 <div class="container">
@@ -16,9 +16,6 @@
                 <div class="card-header">
                 <h3>
                 {{$post->title;}}
-                <form action="/post/{{ $post->id }}/delete" method="POST">
-                    <button type="submit" class="float-right btn btn-sm btn-danger">Remove</button>
-                </form>
                 </h3>
                 </div>
                 <div class="card-body">
@@ -28,7 +25,6 @@
                     <button class="btn btn-info btn-sm float-right">
                         {{ date_format(date_create($post->created_at),"Y-m-d") }}
                     </button>
-                    <a href="/edit_post/{{ $post->id }}" name="edit" class="btn btn-warning btn-sm float-left">Edit</a>
                 </div>
             </div>
             @endforeach

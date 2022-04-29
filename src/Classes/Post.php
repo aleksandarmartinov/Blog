@@ -29,6 +29,17 @@ class Post extends QueryBuilder {
         return $posts_of_user;
     }
 
+    public function editPost($id)
+    {
+        $title = $_POST['post_title'];
+        $description = $_POST['post_description'];
+
+        $sql = "UPDATE posts SET title = '$title', description = '$description' WHERE id = ?";
+        $query = $this->db->prepare($sql);
+        $query->execute([$id]);
+
+    }
+
     public function deletePost($id) 
     {
         $sql = "DELETE FROM posts WHERE id = ?";
@@ -47,10 +58,38 @@ class Post extends QueryBuilder {
         return $post;
     }
 
-    public function editPost($id)
+    public function findPostByIdAndUid($id, $user_id)
     {
-        $id = $_POST['id']->id;
+        $sql = "SELECT * FROM posts WHERE id = ? AND user_id = ?";
+        $query = $this->db->prepare($sql);
+        $query->execute([$id, $user_id]);
+
+        $post = $query->fetch(PDO::FETCH_OBJ);
+        return $post;
     }
+
+    public function getOne($id)
+    {
+        $sql = "SELECT * FROM posts WHERE id = ?";
+        $query = $this->db->prepare($sql);
+        $query->execute([$id]);
+
+        $post = $query->fetch(PDO::FETCH_OBJ);
+        return $post;
+    }
+
+    public function getAllFromUser($id)
+    {
+
+        $sql = "SELECT * FROM posts WHERE user_id= ?";
+        $query = $this->db->prepare($sql);
+        $query->execute([$id]);
+
+        $userPosts = $query->fetchAll(PDO::FETCH_OBJ);
+        return $userPosts;
+
+    }
+
 }
 
 

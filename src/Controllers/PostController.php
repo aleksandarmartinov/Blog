@@ -5,7 +5,7 @@ namespace App\Controllers;
 use App\Controllers\MainController;
 use App\Database\Connection;
 use App\Classes\Post;
-
+use App\Classes\User;
 
 class PostController extends MainController {
 
@@ -32,8 +32,8 @@ class PostController extends MainController {
         if (isset($_POST['postSubBtn'])) {
 
             $title = $_POST['post_title'] = trim(htmlspecialchars($_POST['post_title']));
-            $body = $_POST['post_description'];
-
+            $body = $_POST['post_description'] = trim(htmlspecialchars($_POST['post_description']));
+            
             $errormsg_array = array();
             $error_exists = false;
 
@@ -47,6 +47,16 @@ class PostController extends MainController {
                 $error_exists = true;
             }
         
+            if (!filter_var(htmlspecialchars($_POST['post_title']))) {
+                $errormsg_array[] = "Title must be correctly written";
+                $error_exists = true;
+            }
+
+            if (!filter_var(htmlspecialchars($_POST['post_description']))) {
+                $errormsg_array[] = "Post must be correctly written";
+                $error_exists = true;
+            }
+
             if (!preg_match('/^[a-z0-9\s].+$/i', $body)) {
                 $errormsg_array[] = "Post can only contain letters, numbers and white spaces";
                 $error_exists = true;
@@ -102,7 +112,7 @@ class PostController extends MainController {
         
     }
 
-    public function editPostView()
+    public function editPostView($id)
     {
         $db = Connection::connect([
             "host"      => $_ENV['DB_HOST'],
@@ -112,20 +122,71 @@ class PostController extends MainController {
         ]);
 
         $post = new Post($db);
-        // $post->findPostById($id);
+        $result = $post->findPostByIdAndUid($id, $_SESSION['logged_user']->id);
 
-        if(isset($_POST['edit'])){
-        echo $this->blade->make('edit_post', ['post'=>$post])->render();
+        if($result){
+            echo $this->blade->make('edit_post', ['post'=>$result])->render();
         }else{
             header("Location: /");
         }
+
     }
 
-    public function editPost($id)
+    public function editPosts($id)
     {
+        $db = Connection::connect([
+            "host"      => $_ENV['DB_HOST'],
+            "user"      => $_ENV['DB_USER'],
+            "password"  => $_ENV['DB_PASSWORD'],
+            "dbname"    => $_ENV['DB_NAME'],
+        ]);
 
-        header("Location: /user");
-        exit;
-        
+        $post = new Post($db);
+        $result = $post->findPostById($id);
+
+        if(!$result) {
+
+            //validacija i redirekcija
+
+        }else{
+            $post->editPost($id);
+            header("Location: /");
+        }
+
     }
+    
+    public function showPost($id)
+    {
+        $db = Connection::connect([
+            "host"      => $_ENV['DB_HOST'],
+            "user"      => $_ENV['DB_USER'],
+            "password"  => $_ENV['DB_PASSWORD'],
+            "dbname"    => $_ENV['DB_NAME'],
+        ]);
+
+        $post = new Post($db);
+        $result = $post->getOne($id);
+
+        echo $this->blade->make('post', ['post' => $result])->render();
+
+    }
+
+
+    public function userPosts($id)
+    {
+        $db = Connection::connect([
+            "host"      => $_ENV['DB_HOST'],
+            "user"      => $_ENV['DB_USER'],
+            "password"  => $_ENV['DB_PASSWORD'],
+            "dbname"    => $_ENV['DB_NAME'],
+        ]);
+
+        $post = new Post($db);
+        $posts = $post->singleUserAds($id);
+
+    
+        echo $this->blade->make('user_posts', ['posts' => $posts])->render();
+
+    }
+
 }

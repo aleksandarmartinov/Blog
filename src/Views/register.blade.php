@@ -15,7 +15,7 @@
                 @if(isset($_SESSION['ERROR_MESSAGE']) && is_array($_SESSION['ERROR_MESSAGE']) && count($_SESSION['ERROR_MESSAGE']) >0)
 
 	                @foreach($_SESSION['ERROR_MESSAGE'] as $msg)  
-		                    <div style="color: red; text-align: center;">{{$msg}}</div><br>    
+		                    <div style="color: red; text-align: center;">{{ $msg }}</div><br>    
                     @endforeach
                     @php
 	                    unset($_SESSION['ERROR_MESSAGE'])
