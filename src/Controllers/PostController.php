@@ -127,12 +127,12 @@ class PostController extends MainController {
         if($result){
             echo $this->blade->make('edit_post', ['post'=>$result])->render();
         }else{
-            header("Location: /");
+            return header("Location: /");
         }
 
     }
 
-    public function editPosts($id)
+    public function editPosts($id,$user_id)
     {
         $db = Connection::connect([
             "host"      => $_ENV['DB_HOST'],
@@ -142,7 +142,7 @@ class PostController extends MainController {
         ]);
 
         $post = new Post($db);
-        $result = $post->findPostById($id);
+        $result = $post->findPostById($id,$user_id);
 
         if(!$result) {
 

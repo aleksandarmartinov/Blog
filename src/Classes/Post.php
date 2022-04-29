@@ -48,11 +48,11 @@ class Post extends QueryBuilder {
         
     }
 
-    public function findPostById($id)
+    public function findPostById($id, $user_id)
     {
-        $sql = "SELECT * FROM posts WHERE id = ?";
+        $sql = "SELECT * FROM posts WHERE id = ? AND user_id = ?";
         $query = $this->db->prepare($sql);
-        $query->execute([$id]);
+        $query->execute([$id, $user_id]);
 
         $post = $query->fetch(PDO::FETCH_OBJ);
         return $post;
