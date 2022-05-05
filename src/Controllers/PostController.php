@@ -12,11 +12,7 @@ class PostController extends MainController {
 
     public function postView() 
     {
-        if (isset($_SESSION['logged_user'])) {
-            echo $this->blade->make('add_post', [])->render();
-        }else{
-            header("Location: /");
-        }
+        echo $this->blade->make('add_post', [])->render();
     }
 
 
@@ -67,7 +63,7 @@ class PostController extends MainController {
             if ($error_exists) {
                 $_SESSION['ERROR_MESSAGE'] = $errormsg_array;
                 session_write_close();
-                header("Location: /add_post");
+                header("Location: /admin/add_post");
                 exit();
              }else{
                 $post->createPost();
@@ -133,7 +129,7 @@ class PostController extends MainController {
         $post = new Post($db);
         $post->deletePost($id);
        
-        header("Location: /user");
+        header("Location: /admin/user");
 
     }
 
