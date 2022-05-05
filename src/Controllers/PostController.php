@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\MainController;
 use App\Database\Connection;
-use App\Classes\Post;
+use App\Models\Post;
 use App\Classes\User;
 
 
@@ -18,14 +18,8 @@ class PostController extends MainController {
 
     public function createPost() 
     {
-        $db = Connection::connect([
-            "host"      => $_ENV['DB_HOST'],
-            "user"      => $_ENV['DB_USER'],
-            "password"  => $_ENV['DB_PASSWORD'],
-            "dbname"    => $_ENV['DB_NAME'],
-        ]);
 
-        $post = new Post($db);
+        $post = new Post();
 
         if (isset($_POST['postSubBtn'])) {
 
@@ -77,14 +71,8 @@ class PostController extends MainController {
     
     public function editPostView($id)
     {
-        $db = Connection::connect([
-            "host"      => $_ENV['DB_HOST'],
-            "user"      => $_ENV['DB_USER'],
-            "password"  => $_ENV['DB_PASSWORD'],
-            "dbname"    => $_ENV['DB_NAME'],
-        ]);
 
-        $post = new Post($db);
+        $post = new Post();
         $result = $post->findPostByIdAndUid($id, $_SESSION['logged_user']->id);
 
         if($result){
@@ -98,20 +86,14 @@ class PostController extends MainController {
 
     public function editPosts($id)
     {
-        $db = Connection::connect([
-            "host"      => $_ENV['DB_HOST'],
-            "user"      => $_ENV['DB_USER'],
-            "password"  => $_ENV['DB_PASSWORD'],
-            "dbname"    => $_ENV['DB_NAME'],
-        ]);
 
-        $post = new Post($db);
+        $post = new Post();
 
 
         //Validacija i redirekcija
         
         $post->editPost($id);
-        header("Location: /");
+        return header("Location: /");
         
 
     }

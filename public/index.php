@@ -13,14 +13,6 @@ $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
 
 
-$db = Connection::connect([
-    "host"      => $_ENV['DB_HOST'],
-    "user"      => $_ENV['DB_USER'],
-    "password"  => $_ENV['DB_PASSWORD'],
-    "dbname"    => $_ENV['DB_NAME'],
-]);
-
-
 // Create Router and other instances
 $router = new Router();
 

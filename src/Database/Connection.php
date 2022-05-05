@@ -7,13 +7,23 @@ use PDOException;
 
 class Connection {
 
+    private static $instance;
+
+    private function __construct() {
+
+        
+
+    }
+
     public static function connect($database){
 
-        try{
-            return new PDO('mysql:host='.$database['host'].';dbname='.$database['dbname'],$database['user'],$database['password']);
-        }catch(PDOException $e){
-            die("Error ".$e->getMessage());
+        
+        if( ! self::$instance) {
+            self::$instance = new PDO('mysql:host='.$database['host'].';dbname='.$database['dbname'],$database['user'],$database['password']);
         }
+        
+        return self::$instance;
+        
     }    
 }
 ?>
