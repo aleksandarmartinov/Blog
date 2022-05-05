@@ -4,6 +4,7 @@ namespace App\Classes;
 
 use PDO;
 
+
 class Post extends QueryBuilder {
 
     public function createPost()
@@ -16,7 +17,6 @@ class Post extends QueryBuilder {
         $sql = "INSERT INTO posts VALUES (NULL,?,?,?,?)";
         $query = $this->db->prepare($sql);
         $query->execute([$title,$description,$user_id,$created_at]);
-
     }
 
     public function singleUserAds($id)
@@ -37,22 +37,20 @@ class Post extends QueryBuilder {
         $sql = "UPDATE posts SET title = '$title', description = '$description' WHERE id = ?";
         $query = $this->db->prepare($sql);
         $query->execute([$id]);
-
     }
 
     public function deletePost($id) 
     {
         $sql = "DELETE FROM posts WHERE id = ?";
         $query = $this->db->prepare($sql);
-        $query->execute([$id]);
-        
+        $query->execute([$id]);     
     }
 
-    public function findPostById($id, $user_id)
+    public function findPostById($id)
     {
-        $sql = "SELECT * FROM posts WHERE id = ? AND user_id = ?";
+        $sql = "SELECT * FROM posts WHERE user_id = ?";
         $query = $this->db->prepare($sql);
-        $query->execute([$id, $user_id]);
+        $query->execute([$id]);
 
         $post = $query->fetch(PDO::FETCH_OBJ);
         return $post;
@@ -76,18 +74,6 @@ class Post extends QueryBuilder {
 
         $post = $query->fetch(PDO::FETCH_OBJ);
         return $post;
-    }
-
-    public function getAllFromUser($id)
-    {
-
-        $sql = "SELECT * FROM posts WHERE user_id= ?";
-        $query = $this->db->prepare($sql);
-        $query->execute([$id]);
-
-        $userPosts = $query->fetchAll(PDO::FETCH_OBJ);
-        return $userPosts;
-
     }
 
 }

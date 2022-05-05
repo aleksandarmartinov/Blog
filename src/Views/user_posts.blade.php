@@ -13,20 +13,16 @@
         <div class="col-8 offset-2">
             @foreach($posts as $post)
                 <div class="card mb-3">
-                <div class="card-header">
-                <h3>
-                {{$post->title;}}
-                </h3>
+                    <div class="card-header">
+                        <a href="/post/{{ $post->id }}"><h3>{{ $post->title; }}</h3></a>
+                    </div>
+                    <div class="card-body">{{ $post->description }}</div>
+                    <div class="card-footer">
+                        <button class="btn btn-info btn-sm float-right">
+                            {{ date_format(date_create($post->created_at),"Y-m-d") }}
+                        </button>
+                    </div>
                 </div>
-                <div class="card-body">
-                    {{$post->description}}
-                </div>
-                <div class="card-footer">
-                    <button class="btn btn-info btn-sm float-right">
-                        {{ date_format(date_create($post->created_at),"Y-m-d") }}
-                    </button>
-                </div>
-            </div>
             @endforeach
         </div>
     </div>

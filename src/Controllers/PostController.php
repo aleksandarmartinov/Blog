@@ -7,10 +7,11 @@ use App\Database\Connection;
 use App\Classes\Post;
 use App\Classes\User;
 
+
 class PostController extends MainController {
 
-    public function postView() {
-
+    public function postView() 
+    {
         if (isset($_SESSION['logged_user'])) {
             echo $this->blade->make('add_post', [])->render();
         }else{
@@ -18,8 +19,9 @@ class PostController extends MainController {
         }
     }
 
-    public function createPost() {
 
+    public function createPost() 
+    {
         $db = Connection::connect([
             "host"      => $_ENV['DB_HOST'],
             "user"      => $_ENV['DB_USER'],
@@ -75,43 +77,8 @@ class PostController extends MainController {
 
         }
     }   
+
     
-    public function singleUserPosts() {
-
-        $db = Connection::connect([
-            "host"      => $_ENV['DB_HOST'],
-            "user"      => $_ENV['DB_USER'],
-            "password"  => $_ENV['DB_PASSWORD'],
-            "dbname"    => $_ENV['DB_NAME'],
-        ]);
-
-        $post = new Post($db);
-
-        if (isset($_SESSION['logged_user'])) {
-            $posts = $post->singleUserAds($_SESSION['logged_user']->id);
-            echo $this->blade->make('user', ['posts' => $posts])->render();
-        }else{
-            header ("Location: /");
-        }
-    }
-
-    public function deletePost($id) {
-
-        $db = Connection::connect([
-            "host"      => $_ENV['DB_HOST'],
-            "user"      => $_ENV['DB_USER'],
-            "password"  => $_ENV['DB_PASSWORD'],
-            "dbname"    => $_ENV['DB_NAME'],
-        ]);
-
-        $post = new Post($db);
-
-        $post->deletePost($id);
-       
-        header("Location: /user");
-        
-    }
-
     public function editPostView($id)
     {
         $db = Connection::connect([
@@ -132,7 +99,8 @@ class PostController extends MainController {
 
     }
 
-    public function editPosts($id,$user_id)
+
+    public function editPosts($id)
     {
         $db = Connection::connect([
             "host"      => $_ENV['DB_HOST'],
@@ -142,20 +110,18 @@ class PostController extends MainController {
         ]);
 
         $post = new Post($db);
-        $result = $post->findPostById($id,$user_id);
 
-        if(!$result) {
 
-            //validacija i redirekcija
-
-        }else{
-            $post->editPost($id);
-            header("Location: /");
-        }
+        //Validacija i redirekcija
+        
+        $post->editPost($id);
+        header("Location: /");
+        
 
     }
+
     
-    public function showPost($id)
+    public function deletePost($id) 
     {
         $db = Connection::connect([
             "host"      => $_ENV['DB_HOST'],
@@ -165,9 +131,30 @@ class PostController extends MainController {
         ]);
 
         $post = new Post($db);
-        $result = $post->getOne($id);
+        $post->deletePost($id);
+       
+        header("Location: /user");
 
-        echo $this->blade->make('post', ['post' => $result])->render();
+    }
+
+
+    public function singleUserPosts() 
+    {
+        $db = Connection::connect([
+            "host"      => $_ENV['DB_HOST'],
+            "user"      => $_ENV['DB_USER'],
+            "password"  => $_ENV['DB_PASSWORD'],
+            "dbname"    => $_ENV['DB_NAME'],
+        ]);
+
+        $post = new Post($db);
+
+        if (isset($_SESSION['logged_user'])) {
+            $posts = $post->singleUserAds($_SESSION['logged_user']->id);
+            echo $this->blade->make('user', ['posts' => $posts])->render();
+        }else{
+            header ("Location: /");
+        }
 
     }
 
@@ -184,8 +171,24 @@ class PostController extends MainController {
         $post = new Post($db);
         $posts = $post->singleUserAds($id);
 
-    
         echo $this->blade->make('user_posts', ['posts' => $posts])->render();
+
+    }
+
+
+    public function showPost($id)
+    {
+        $db = Connection::connect([
+            "host"      => $_ENV['DB_HOST'],
+            "user"      => $_ENV['DB_USER'],
+            "password"  => $_ENV['DB_PASSWORD'],
+            "dbname"    => $_ENV['DB_NAME'],
+        ]);
+
+        $post = new Post($db);
+        $result = $post->getOne($id);
+
+        echo $this->blade->make('post', ['post' => $result])->render();
 
     }
 

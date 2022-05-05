@@ -13,24 +13,22 @@
         <div class="col-8 offset-2">
             @foreach($posts as $post)
                 <div class="card mb-3">
-                <div class="card-header">
-                <h3>
-                {{$post->title;}}
-                <form action="/post/{{ $post->id }}/delete" method="POST">
-                    <button type="submit" class="float-right btn btn-sm btn-danger">Remove</button>
-                </form>
-                </h3>
-                </div>
-                <div class="card-body">
-                    {{$post->description}}
-                </div>
+                    <div class="card-header">
+                        <h3>
+                            {{$post->title;}}
+                            <form action="/post/{{ $post->id }}/delete" method="POST">
+                                <button type="submit" class="float-right btn btn-sm btn-danger">Remove</button>
+                            </form>
+                        </h3>
+                    </div>
+                <div class="card-body">{{$post->description}}</div>
                 <div class="card-footer">
                     <button class="btn btn-info btn-sm float-right">
                         {{ date_format(date_create($post->created_at),"Y-m-d") }}
                     </button>
                     <a href="/edit_post/{{ $post->id }}" name="edit" class="btn btn-warning btn-sm float-left">Edit</a>
                 </div>
-            </div>
+                </div>
             @endforeach
         </div>
     </div>

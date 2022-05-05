@@ -12,6 +12,7 @@
     <div class="row">
         <div class="col-6 offset-3">
             <form action="/register" method="POST">
+
                 <?php if(isset($_SESSION['ERROR_MESSAGE']) && is_array($_SESSION['ERROR_MESSAGE']) && count($_SESSION['ERROR_MESSAGE']) >0): ?>
 
 	                <?php $__currentLoopData = $_SESSION['ERROR_MESSAGE']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $msg): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>  
@@ -22,6 +23,7 @@
                     ?>
                     
                 <?php endif; ?>
+                
                 <input type="name" name="register_name" placeholder="Name" class="form-control"><br>
                 <input type="text" name="register_email" placeholder="Email" class="form-control"><br>
                 <input type="password" name="register_password" placeholder="Password" class="form-control"><br>

@@ -4,11 +4,62 @@ namespace App\Controllers;
 
 use App\Controllers\MainController;
 use App\Database\Connection;
-use App\Classes\QueryBuilder;
 use App\Classes\User;
 
 
 class UserController extends MainController {
+
+
+    public function loginView(){
+
+        echo $this->blade->make('login', [])->render();
+    }
+
+
+    public function loginUser(){
+
+        $db = Connection::connect([
+            "host"      => $_ENV['DB_HOST'],
+            "user"      => $_ENV['DB_USER'],
+            "password"  => $_ENV['DB_PASSWORD'],
+            "dbname"    => $_ENV['DB_NAME'],
+        ]);
+
+        $user = new User($db);
+
+        if(isset($_POST['loginBtn'])){
+
+            $email = $_POST['login_email'] = filter_var($_POST['login_email'], FILTER_VALIDATE_EMAIL); 
+            $password = $_POST['login_password'];
+            
+            $errormsg_array = array();
+            $error_exists = false;
+            
+            
+            if($email == '') {
+                $errormsg_array[] = 'Valid Email is required';
+                $error_exists = true;
+            }
+            
+            if($password == '') {
+                $errormsg_array[] = 'Password is required';
+                $error_exists = true;
+            }
+            
+            if($error_exists) {
+                $_SESSION['ERROR_MESSAGE'] = $errormsg_array;
+                session_write_close();
+                header("Location: /login");
+                exit();
+            
+            }else{
+                $user->logUser();
+                header("Location: /");
+                exit();
+            }
+        }
+    }
+
 
     public function registerView(){
 
@@ -25,7 +76,6 @@ class UserController extends MainController {
             "dbname"    => $_ENV['DB_NAME'],
         ]);
 
-        $query = new QueryBuilder($db);
         $user = new User($db);
 
     
@@ -85,54 +135,6 @@ class UserController extends MainController {
 
     }
 
-    public function loginView(){
-
-        echo $this->blade->make('login', [])->render();
-    }
-
-    public function loginUser(){
-
-        $db = Connection::connect([
-            "host"      => $_ENV['DB_HOST'],
-            "user"      => $_ENV['DB_USER'],
-            "password"  => $_ENV['DB_PASSWORD'],
-            "dbname"    => $_ENV['DB_NAME'],
-        ]);
-
-        $user = new User($db);
-
-        if(isset($_POST['loginBtn'])){
-
-            $email = $_POST['login_email'] = filter_var($_POST['login_email'], FILTER_VALIDATE_EMAIL); 
-            $password = $_POST['login_password'];
-            
-            $errormsg_array = array();
-            $error_exists = false;
-            
-            
-            if($email == '') {
-                $errormsg_array[] = 'Email is srequired';
-                $error_exists = true;
-            }
-            
-            if($password == '') {
-                $errormsg_array[] = 'Password is required';
-                $error_exists = true;
-            }
-            
-            if($error_exists) {
-                $_SESSION['ERROR_MESSAGE'] = $errormsg_array;
-                session_write_close();
-                header("Location: /login");
-                exit();
-            
-            }else{
-                $user->logUser();
-                header("Location: /");
-                exit();
-            }
-        }
-    }
 
     public function logout() {
 
@@ -140,4 +142,5 @@ class UserController extends MainController {
     session_destroy();
     header("Location: /");
     }
+    
 }

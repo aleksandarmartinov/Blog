@@ -4,6 +4,7 @@ namespace App\Classes;
 
 use PDO;
 
+
 class User extends QueryBuilder {
 
     public function registerUser()
@@ -30,7 +31,6 @@ class User extends QueryBuilder {
         if ($logged_user !=NULL) { 
             $_SESSION['logged_user'] = $logged_user;
         }
-
     }
 
     public function getUserWithId($id)
@@ -42,7 +42,7 @@ class User extends QueryBuilder {
         $post_owner = $query->fetch(PDO::FETCH_OBJ);
         return $post_owner;
     }
-
+    
 }
 
 ?>
