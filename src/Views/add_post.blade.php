@@ -11,7 +11,7 @@
 <div class="container">
     <div class="row">
         <div class="col-8 offset-2">
-            <form action="/add_post" method="POST">
+            <form action="/admin/add_post" method="POST">
 
                 @if(isset($_SESSION['ERROR_MESSAGE']) && is_array($_SESSION['ERROR_MESSAGE']) && count($_SESSION['ERROR_MESSAGE']) >0)
 

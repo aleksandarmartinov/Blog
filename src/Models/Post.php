@@ -1,11 +1,12 @@
 <?php 
 
-namespace App\Classes;
+namespace App\Models;
+
 
 use PDO;
 
 
-class Post extends QueryBuilder {
+class Post extends BaseModel {
 
     public function createPost()
     {
@@ -74,6 +75,15 @@ class Post extends QueryBuilder {
 
         $post = $query->fetch(PDO::FETCH_OBJ);
         return $post;
+    }
+
+    public function selectAll($table) 
+    {
+        $sql = "SELECT * FROM {$table}";
+        $query = $this->db->prepare($sql);
+        $query->execute();
+        
+        return $query->fetchAll(PDO::FETCH_OBJ);
     }
 
 }

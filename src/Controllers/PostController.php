@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\MainController;
 use App\Database\Connection;
-use App\Classes\Post;
+use App\Models\Post;
 use App\Classes\User;
 
 
@@ -12,24 +12,14 @@ class PostController extends MainController {
 
     public function postView() 
     {
-        if (isset($_SESSION['logged_user'])) {
-            echo $this->blade->make('add_post', [])->render();
-        }else{
-            header("Location: /");
-        }
+        echo $this->blade->make('add_post', [])->render();
     }
 
 
     public function createPost() 
     {
-        $db = Connection::connect([
-            "host"      => $_ENV['DB_HOST'],
-            "user"      => $_ENV['DB_USER'],
-            "password"  => $_ENV['DB_PASSWORD'],
-            "dbname"    => $_ENV['DB_NAME'],
-        ]);
 
-        $post = new Post($db);
+        $post = new Post();
 
         if (isset($_POST['postSubBtn'])) {
 
@@ -67,7 +57,7 @@ class PostController extends MainController {
             if ($error_exists) {
                 $_SESSION['ERROR_MESSAGE'] = $errormsg_array;
                 session_write_close();
-                header("Location: /add_post");
+                header("Location: /admin/add_post");
                 exit();
              }else{
                 $post->createPost();
@@ -81,14 +71,8 @@ class PostController extends MainController {
     
     public function editPostView($id)
     {
-        $db = Connection::connect([
-            "host"      => $_ENV['DB_HOST'],
-            "user"      => $_ENV['DB_USER'],
-            "password"  => $_ENV['DB_PASSWORD'],
-            "dbname"    => $_ENV['DB_NAME'],
-        ]);
 
-        $post = new Post($db);
+        $post = new Post();
         $result = $post->findPostByIdAndUid($id, $_SESSION['logged_user']->id);
 
         if($result){
@@ -102,20 +86,14 @@ class PostController extends MainController {
 
     public function editPosts($id)
     {
-        $db = Connection::connect([
-            "host"      => $_ENV['DB_HOST'],
-            "user"      => $_ENV['DB_USER'],
-            "password"  => $_ENV['DB_PASSWORD'],
-            "dbname"    => $_ENV['DB_NAME'],
-        ]);
 
-        $post = new Post($db);
+        $post = new Post();
 
 
         //Validacija i redirekcija
         
         $post->editPost($id);
-        header("Location: /");
+        return header("Location: /");
         
 
     }
@@ -133,7 +111,7 @@ class PostController extends MainController {
         $post = new Post($db);
         $post->deletePost($id);
        
-        header("Location: /user");
+        header("Location: /admin/user");
 
     }
 
