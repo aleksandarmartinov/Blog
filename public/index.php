@@ -39,6 +39,7 @@ $router->get('/user', '\App\Controllers\PostController@singleUserPosts');
 $router->get('/edit_post/{id}', '\App\Controllers\PostController@editPostView');
 $router->post('/edit_post/{id}', '\App\Controllers\PostController@editPosts');
 $router->post('/post/{id}/delete', '\App\Controllers\PostController@deletePost');
+
 $router->get('/user_posts/{id}', '\App\Controllers\PostController@userPosts');
 $router->get('/post/{id}', '\App\Controllers\PostController@showPost');
 
