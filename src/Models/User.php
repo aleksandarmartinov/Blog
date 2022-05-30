@@ -1,11 +1,11 @@
 <?php 
 
-namespace App\Classes;
+namespace App\Models;
 
 use PDO;
 
 
-class User extends QueryBuilder {
+class User extends BaseModel {
 
     public function registerUser()
     {
@@ -44,5 +44,3 @@ class User extends QueryBuilder {
     }
     
 }
-
-?>

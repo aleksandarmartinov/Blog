@@ -4,9 +4,10 @@ session_start();
 require __DIR__ . '/../vendor/autoload.php';
 
 
-use App\Database\Connection;
 use Dotenv\Dotenv;
 use Bramus\Router\Router;
+use App\Models\Post;
+use App\Controllers;
 
 
 $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
@@ -25,33 +26,33 @@ $router->get('/login', '\App\Controllers\UserController@loginView');
 $router->post('/login', '\App\Controllers\UserController@loginUser');
 $router->get('/logout', '\App\Controllers\UserController@logout');
 
-<<<<<<< HEAD
-$router->get('/add_post', '\App\Controllers\PostController@postView');
-$router->post('/add_post', '\App\Controllers\PostController@createPost');
-$router->get('/user', '\App\Controllers\PostController@singleUserPosts');
-$router->get('/edit_post/{id}', '\App\Controllers\PostController@editPostView');
-$router->post('/edit_post/{id}', '\App\Controllers\PostController@editPosts');
-$router->post('/post/{id}/delete', '\App\Controllers\PostController@deletePost');
-=======
-$router->get('admin/add_post', '\App\Controllers\PostController@postView');
-$router->post('admin/add_post', '\App\Controllers\PostController@createPost');
-$router->get('admin/user', '\App\Controllers\PostController@singleUserPosts');
-$router->get('admin/edit_post/{id}', '\App\Controllers\PostController@editPostView');
-$router->post('admin/edit_post/{id}', '\App\Controllers\PostController@editPosts');
-$router->post('admin/post/{id}/delete', '\App\Controllers\PostController@deletePost');
->>>>>>> cdc712f9ad79d75a33363917ed5e5e746f66ea1b
+$router->get('blog/add_post', '\App\Controllers\PostController@postView');
+$router->post('blog/add_post', '\App\Controllers\PostController@createPost');
+$router->get('blog/user', '\App\Controllers\PostController@singleUserPosts');
+$router->get('blog/edit_post/{id}', '\App\Controllers\PostController@editPostView');
+$router->post('blog/edit_post/{id}', '\App\Controllers\PostController@editPosts');
+$router->post('blog/post/{id}/delete', '\App\Controllers\PostController@deletePost');
 
 $router->get('/user_posts/{id}', '\App\Controllers\PostController@userPosts');
 $router->get('/post/{id}', '\App\Controllers\PostController@showPost');
 
 
-$router->before('GET|POST', 'admin/*', function() {
+$router->before('GET|POST', 'blog/*', function() {
     if ( ! isset($_SESSION['logged_user'])) {
         return header("Location: /");
     }
 });
 
-$router->before('GET|POST', 'admin/edit_post/{id}', function($id) {
+$router->before('GET|POST', 'blog/edit_post/{id}', function($id) {
+
+    
+    $post = new Post();
+    $result = $post->findPostByIdAndUid($id, $_SESSION['logged_user']->id);
+
+    if (! $result){
+        return header("Location: /");
+    }
+
     
 });
 

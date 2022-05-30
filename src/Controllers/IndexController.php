@@ -4,8 +4,8 @@ namespace App\Controllers;
 
 use App\Controllers\MainController;
 use App\Database\Connection;
-use App\Classes\Post;
-use App\Classes\User;
+use App\Models\Post;
+use App\Models\User;
 
 
 class IndexController extends MainController {

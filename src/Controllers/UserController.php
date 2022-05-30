@@ -3,29 +3,24 @@
 namespace App\Controllers;
 
 use App\Controllers\MainController;
-use App\Database\Connection;
-use App\Classes\User;
+use App\Models\User;
 
 
 class UserController extends MainController {
 
 
-    public function loginView(){
+    public function loginView()
+    {
 
         echo $this->blade->make('login', [])->render();
+        
     }
 
 
-    public function loginUser(){
+    public function loginUser()
+    {
 
-        $db = Connection::connect([
-            "host"      => $_ENV['DB_HOST'],
-            "user"      => $_ENV['DB_USER'],
-            "password"  => $_ENV['DB_PASSWORD'],
-            "dbname"    => $_ENV['DB_NAME'],
-        ]);
-
-        $user = new User($db);
+        $user = new User();
 
         if(isset($_POST['loginBtn'])){
 
@@ -61,22 +56,18 @@ class UserController extends MainController {
     }
 
 
-    public function registerView(){
+    public function registerView()
+    {
 
         echo $this->blade->make('register', [])->render();
+
     }
     
 
-    public function registerUser() {
+    public function registerUser() 
+    {
 
-        $db = Connection::connect([
-            "host"      => $_ENV['DB_HOST'],
-            "user"      => $_ENV['DB_USER'],
-            "password"  => $_ENV['DB_PASSWORD'],
-            "dbname"    => $_ENV['DB_NAME'],
-        ]);
-
-        $user = new User($db);
+        $user = new User();
 
     
         if(isset($_POST['registerBtn'])){
@@ -136,11 +127,13 @@ class UserController extends MainController {
     }
 
 
-    public function logout() {
+    public function logout() 
+    {
 
     session_start();
     session_destroy();
     header("Location: /");
+
     }
     
 }
