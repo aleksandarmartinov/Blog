@@ -8,21 +8,29 @@ use PDO;
 
 class Post extends BaseModel {
 
-    public function createPost()
+    public function createPost(string $title, string $description, int $user_id, string $file = null)
     {
-        $title = $_POST['post_title'];   
-        $description = $_POST['post_description'];
-        $created_at = date('Y-m-d');
-        $user_id = $_SESSION['logged_user']->id;
+        // $title = $_POST['post_title'];   
+        // $description = $_POST['post_description'];
+        // $created_at = date('Y-m-d');
+        // $user_id = $_SESSION['logged_user']->id;
 
-        $file = $_FILES['file']['name'];
-        $temp = $_FILES['file']['tmp_name'];
-        $targeted_dir = "uploads/${file}";
-        move_uploaded_file($temp,$targeted_dir);
+        // $file = $_FILES['file']['name'];
+        // $temp = $_FILES['file']['tmp_name'];
+        // $targeted_dir = "uploads/${file}";
+        // move_uploaded_file($temp,$targeted_dir);
 
-        $sql = "INSERT INTO posts VALUES (NULL,?,?,?,?,?)";
+        $data = [
+            'title' => $title, 
+            'description' => $description, 
+            'user_id' => $user_id, 
+            'file' => $file, 
+            'created_at' => date('Y-m-d H:i:s')
+        ];
+
+        $sql = "INSERT INTO posts (title, description, user_id, file, created_at) VALUES (:title, :description, :user_id, :file, :created_at )";
         $query = $this->db->prepare($sql);
-        $query->execute([$title,$description,$user_id,$file,$created_at]);
+        $query->execute($data);
     }
 
     public function singleUserAds($id)

@@ -58,8 +58,23 @@ class PostController extends MainController {
                 session_write_close();
                 header("Location: /blog/add_post");
                 exit();
-             }else{  
-                $post->createPost();
+            } else {  
+
+                $title          = $_POST['post_title'];   
+                $description    = $_POST['post_description'];
+                $user_id        = $_SESSION['logged_user']->id;
+
+                $file           = $_FILES['file']['name'];
+                $temp           = $_FILES['file']['tmp_name'];
+                $targeted_dir   = "uploads/${file}";
+
+                echo "<pre>";
+                print_r($_FILES);
+                exit;
+
+                move_uploaded_file($temp,$targeted_dir);
+
+                $post->createPost($title, $description, $user_id, $file);
                 header("Location: /");
                 exit();
              }
