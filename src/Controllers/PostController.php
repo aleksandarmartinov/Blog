@@ -68,10 +68,6 @@ class PostController extends MainController {
                 $temp           = $_FILES['file']['tmp_name'];
                 $targeted_dir   = "uploads/${file}";
 
-                echo "<pre>";
-                print_r($_FILES);
-                exit;
-
                 move_uploaded_file($temp,$targeted_dir);
 
                 $post->createPost($title, $description, $user_id, $file);
