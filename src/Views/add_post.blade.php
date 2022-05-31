@@ -11,7 +11,7 @@
 <div class="container">
     <div class="row">
         <div class="col-8 offset-2">
-            <form action="/blog/add_post" method="POST">
+            <form action="/blog/add_post" method="POST" enctype="multipart/form-data">
 
                 @if(isset($_SESSION['ERROR_MESSAGE']) && is_array($_SESSION['ERROR_MESSAGE']) && count($_SESSION['ERROR_MESSAGE']) >0)
 
@@ -25,6 +25,8 @@
                 
                 <input type="text" name="post_title" placeholder="Title" class="form-control"><br>
                 <textarea name="post_description" placeholder="Description" colls="30" rows="10" class="form-control"></textarea><br>
+                Select image to upload : 
+                <input type="file" name="file"><br><br>
                 <button type="submit" name="postSubBtn" class="form-control btn btn-primary">Dodaj</button>
             </form>
         </div>

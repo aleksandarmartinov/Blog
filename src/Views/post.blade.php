@@ -14,7 +14,12 @@
             <h2 class="">{{ $post->title }}</h2>
         </div>
     </div>  
-    <p class="col-8 offset-2 text-center">{{ $post->description }}</p>
+    <p class="col-8 offset-2 text-center">{{ $post->description }}</p></br>
+
+    @if ( $post->file )
+    <div class="col-6"><img src="/uploads/{{ $post->file }}" class="thumb img-fluid" style="width:150px; height:150px; float:left; border-radius:50%; margin-right:25px;"></div>
+    @endif   
+
 </div>
 
 @endsection

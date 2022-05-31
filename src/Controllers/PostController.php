@@ -58,7 +58,7 @@ class PostController extends MainController {
                 session_write_close();
                 header("Location: /blog/add_post");
                 exit();
-             }else{
+             }else{  
                 $post->createPost();
                 header("Location: /");
                 exit();

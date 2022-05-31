@@ -15,9 +15,14 @@ class Post extends BaseModel {
         $created_at = date('Y-m-d');
         $user_id = $_SESSION['logged_user']->id;
 
-        $sql = "INSERT INTO posts VALUES (NULL,?,?,?,?)";
+        $file = $_FILES['file']['name'];
+        $temp = $_FILES['file']['tmp_name'];
+        $targeted_dir = "uploads/${file}";
+        move_uploaded_file($temp,$targeted_dir);
+
+        $sql = "INSERT INTO posts VALUES (NULL,?,?,?,?,?)";
         $query = $this->db->prepare($sql);
-        $query->execute([$title,$description,$user_id,$created_at]);
+        $query->execute([$title,$description,$user_id,$file,$created_at]);
     }
 
     public function singleUserAds($id)

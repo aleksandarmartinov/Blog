@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use App\Controllers\MainController;
-use App\Database\Connection;
 use App\Models\Post;
 use App\Models\User;
 
@@ -12,15 +11,9 @@ class IndexController extends MainController {
 
     public function index()
     {
-        $db = Connection::connect([
-            "host"      => $_ENV['DB_HOST'],
-            "user"      => $_ENV['DB_USER'],
-            "password"  => $_ENV['DB_PASSWORD'],
-            "dbname"    => $_ENV['DB_NAME'],
-        ]);
 
-        $user = new User($db);
-        $post = new Post($db);
+        $user = new User();
+        $post = new Post();
         $posts = $post->selectAll('posts');
       
 
