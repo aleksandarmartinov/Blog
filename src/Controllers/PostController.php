@@ -99,53 +99,51 @@ class PostController extends MainController {
     {
 
         $post = new Post();
-
-
-        if (isset($_POST['editBtn'])) {
-
-            $title = $_POST['post_title'] = trim(htmlspecialchars($_POST['post_title']));
-            $body = $_POST['post_description'] = trim(htmlspecialchars($_POST['post_description']));
-            
-            $errormsg_array = array();
-            $error_exists = false;
-
-            if ($title == '') {
-                $errormsg_array[] = "Title required";
-                $error_exists = true;
-            }
         
-            if ($body == '') {
-                $errormsg_array[] = "Please post something";
-                $error_exists = true;
-            }
+
+        $title = $_POST['post_title'] = trim(htmlspecialchars($_POST['post_title']));
+        $body = $_POST['post_description'] = trim(htmlspecialchars($_POST['post_description']));
         
-            if (!filter_var(htmlspecialchars($_POST['post_title']))) {
-                $errormsg_array[] = "Title must be correctly written";
-                $error_exists = true;
-            }
+        $errormsg_array = array();
+        $error_exists = false;
 
-            if (!filter_var(htmlspecialchars($_POST['post_description']))) {
-                $errormsg_array[] = "Post must be correctly written";
-                $error_exists = true;
-            }
-
-            if (!preg_match('/^[a-z0-9\s].+$/i', $body)) {
-                $errormsg_array[] = "Post can only contain letters, numbers and white spaces";
-                $error_exists = true;
-            }
-
-            if ($error_exists) {
-                $_SESSION['ERROR_MESSAGE'] = $errormsg_array;
-                session_write_close();
-                return header("Location: /blog/edit_post/{id}");
-                exit();
-             }else{
-                $post->editPost($id);
-                return header("Location: /");
-                exit();
-             }
-
+        if ($title == '') {
+            $errormsg_array[] = "Title required";
+            $error_exists = true;
         }
+    
+        if ($body == '') {
+            $errormsg_array[] = "Please post something";
+            $error_exists = true;
+        }
+    
+        if (!filter_var(htmlspecialchars($_POST['post_title']))) {
+            $errormsg_array[] = "Title must be correctly written";
+            $error_exists = true;
+        }
+
+        if (!filter_var(htmlspecialchars($_POST['post_description']))) {
+            $errormsg_array[] = "Post must be correctly written";
+            $error_exists = true;
+        }
+
+        if (!preg_match('/^[a-z0-9\s].+$/i', $body)) {
+            $errormsg_array[] = "Post can only contain letters, numbers and white spaces";
+            $error_exists = true;
+        }
+
+        if ($error_exists) {
+            $_SESSION['ERROR_MESSAGE'] = $errormsg_array;
+            session_write_close();
+            return header("Location: /blog/edit_post/" . $id);
+            exit();
+        } else {
+            $post->editPost($id);
+            return header("Location: /");
+            exit();
+        }
+
+        
               
     }
 
