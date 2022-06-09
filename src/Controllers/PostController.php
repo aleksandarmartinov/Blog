@@ -11,19 +11,26 @@ class PostController extends MainController {
 
     public function postView() 
     {
+
         echo $this->blade->make('add_post', [])->render();
+        
     }
 
 
     public function createPost() 
     {
 
-        $post = new Post();
-
-        if (isset($_POST['postSubBtn'])) {
+            $post = new Post();
 
             $title = $_POST['post_title'] = trim(htmlspecialchars($_POST['post_title']));
-            $body = $_POST['post_description'] = trim(htmlspecialchars($_POST['post_description']));
+            $description = $_POST['post_description'] = trim(htmlspecialchars($_POST['post_description']));
+            $user_id = $_SESSION['logged_user']->id;
+            $file = $_FILES['file']['name'];
+            $temp = $_FILES['file']['tmp_name'];
+            $file_size = $_FILES['file']['size'];
+            $allowed = array('', 'jpg', 'jpeg', 'png', 'gif');
+            $file_ext = pathinfo($file, PATHINFO_EXTENSION);
+            $file =  time().".".$file_ext;
             
             $errormsg_array = array();
             $error_exists = false;
@@ -32,24 +39,34 @@ class PostController extends MainController {
                 $errormsg_array[] = "Title required";
                 $error_exists = true;
             }
-        
-            if ($body == '') {
-                $errormsg_array[] = "Please post something";
-                $error_exists = true;
-            }
-        
-            if (!filter_var(htmlspecialchars($_POST['post_title']))) {
+            
+            elseif (!filter_var(htmlspecialchars($_POST['post_title']))) {
                 $errormsg_array[] = "Title must be correctly written";
                 $error_exists = true;
             }
 
-            if (!filter_var(htmlspecialchars($_POST['post_description']))) {
+            elseif ($description == '') {
+                $errormsg_array[] = "Please post something";
+                $error_exists = true;
+            }
+
+            elseif (!filter_var(htmlspecialchars($_POST['post_description']))) {
                 $errormsg_array[] = "Post must be correctly written";
                 $error_exists = true;
             }
 
-            if (!preg_match('/^[a-z0-9\s].+$/i', $body)) {
+            elseif (!preg_match('/^[a-z0-9\s].+$/i', $description)) {
                 $errormsg_array[] = "Post can only contain letters, numbers and white spaces";
+                $error_exists = true;
+            }
+
+            elseif($file_size >= 1000000) {
+                $errormsg_array[] = "File size too big";
+                $error_exists = true;
+            }
+
+            elseif(! in_array($file_ext, $allowed)) {
+                $errormsg_array[] = "Wrong picture format";
                 $error_exists = true;
             }
 
@@ -58,24 +75,12 @@ class PostController extends MainController {
                 session_write_close();
                 header("Location: /blog/add_post");
                 exit();
-            } else {  
-
-                $title          = $_POST['post_title'];   
-                $description    = $_POST['post_description'];
-                $user_id        = $_SESSION['logged_user']->id;
-
-                $file           = $_FILES['file']['name'];
-                $temp           = $_FILES['file']['tmp_name'];
-                $targeted_dir   = "uploads/${file}";
-
-                move_uploaded_file($temp,$targeted_dir);
-
+            } else { 
+                move_uploaded_file($temp,"uploads/".$file);
                 $post->createPost($title, $description, $user_id, $file);
                 header("Location: /");
                 exit();
-             }
-
-        }
+             } 
 
     }   
 
@@ -95,14 +100,16 @@ class PostController extends MainController {
     }
 
 
-    public function editPosts($id)
+    public function editPosts($id) //ova metoda se koristi u router-u (id parametar - wild card)
     {
 
         $post = new Post();
-        
+        $edit_post = $post->getOne($id);
 
         $title = $_POST['post_title'] = trim(htmlspecialchars($_POST['post_title']));
-        $body = $_POST['post_description'] = trim(htmlspecialchars($_POST['post_description']));
+        $description = $_POST['post_description'] = trim(htmlspecialchars($_POST['post_description']));
+        // $file_size = $_FILES['file']['size'];
+        // $allowed = array('', 'jpg', 'jpeg', 'png', 'gif');
         
         $errormsg_array = array();
         $error_exists = false;
@@ -111,23 +118,23 @@ class PostController extends MainController {
             $errormsg_array[] = "Title required";
             $error_exists = true;
         }
-    
-        if ($body == '') {
-            $errormsg_array[] = "Please post something";
-            $error_exists = true;
-        }
-    
-        if (!filter_var(htmlspecialchars($_POST['post_title']))) {
+
+        elseif (!filter_var(htmlspecialchars($_POST['post_title']))) {
             $errormsg_array[] = "Title must be correctly written";
             $error_exists = true;
         }
 
-        if (!filter_var(htmlspecialchars($_POST['post_description']))) {
+        elseif ($description == '') {
+            $errormsg_array[] = "Please post something";
+            $error_exists = true;
+        }
+    
+        elseif (!filter_var(htmlspecialchars($_POST['post_description']))) {
             $errormsg_array[] = "Post must be correctly written";
             $error_exists = true;
         }
 
-        if (!preg_match('/^[a-z0-9\s].+$/i', $body)) {
+        elseif (!preg_match('/^[a-z0-9\s].+$/i', $description)) {
             $errormsg_array[] = "Post can only contain letters, numbers and white spaces";
             $error_exists = true;
         }
@@ -137,14 +144,28 @@ class PostController extends MainController {
             session_write_close();
             return header("Location: /blog/edit_post/" . $id);
             exit();
-        } else {
-            $post->editPost($id);
+        } 
+
+        if($_FILES) {
+            
+            if ($edit_post->file) {
+                unlink("uploads/'.$edit_post->file");
+            }
+
+            $file = $_FILES['file']['name'];
+            $temp = $_FILES['file']['tmp_name'];
+            $file_ext = pathinfo($file, PATHINFO_EXTENSION);
+            $file =  time().".".$file_ext;
+
+            move_uploaded_file($temp,"uploads/".$file);
+        }else {
+            $file = $edit_post->file;
+        }
+    
+            $post->editPost($title, $description, $file);
             return header("Location: /");
             exit();
-        }
-
-        
-              
+           
     }
 
     

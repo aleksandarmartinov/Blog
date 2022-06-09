@@ -24,6 +24,8 @@
 
                 <input type="text" name="post_title" placeholder="Title" class="form-control" value="{{ $post->title }}"><br>
                 <textarea name="post_description" placeholder="Description" colls="30" rows="10" class="form-control">{{ $post->description }}</textarea><br>
+                Izaberite sliku : 
+                <input type="file" name="file"><br><br>
                 <button type="submit" name="editBtn" class="form-control btn btn-warning">Edit</button>
             </form>
         </div>

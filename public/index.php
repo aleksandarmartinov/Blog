@@ -52,8 +52,8 @@ $router->before('GET|POST', 'blog/edit_post/{id}', function($id) {
     if (! $result){
         return header("Location: /");
     }
-
-    
+     
 });
+
 
 $router->run();

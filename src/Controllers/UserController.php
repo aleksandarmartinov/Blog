@@ -11,9 +11,7 @@ class UserController extends MainController {
 
     public function loginView()
     {
-
-        echo $this->blade->make('login', [])->render();
-        
+        echo $this->blade->make('login', [])->render();    
     }
 
 
@@ -36,7 +34,7 @@ class UserController extends MainController {
                 $error_exists = true;
             }
             
-            if($password == '') {
+            elseif($password == '') {
                 $errormsg_array[] = 'Password is required';
                 $error_exists = true;
             }
@@ -53,14 +51,13 @@ class UserController extends MainController {
                 exit();
             }
         }
+        
     }
 
 
     public function registerView()
     {
-
         echo $this->blade->make('register', [])->render();
-
     }
     
 
@@ -86,27 +83,27 @@ class UserController extends MainController {
                 $error_exists = true;
             }
         
-            if ($email == '') {
+            elseif ($email == '') {
                 $errormsg_array[] = "Email is required";
                 $error_exists = true;
             }
 
-            if ($password == '') {
+            elseif ($password == '') {
                 $errormsg_array[] = "Password is required";
                 $error_exists = true;
             }
         
-            if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
+            elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)){
                 $errormsg_array[] = "Please type in a valid email";
                 $error_exists = true;
             }
 
-            if(strlen($password) <=5 || !$pass_number){
+            elseif(strlen($password) <=5 || !$pass_number){
                 $errormsg_array[] = "Password must be at least 6 characters and must contain at least one number";
                 $error_exists = true;
             }
         
-            if (!preg_match("/^[a-zA-Z0-9]*$/", $username)) {
+            elseif (!preg_match("/^[a-zA-Z0-9]*$/", $username)) {
                 $errormsg_array[] = "Please type your username correctly";
                 $error_exists = true;
             }

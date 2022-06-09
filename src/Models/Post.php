@@ -10,15 +10,6 @@ class Post extends BaseModel {
 
     public function createPost(string $title, string $description, int $user_id, string $file = null)
     {
-        // $title = $_POST['post_title'];   
-        // $description = $_POST['post_description'];
-        // $created_at = date('Y-m-d');
-        // $user_id = $_SESSION['logged_user']->id;
-
-        // $file = $_FILES['file']['name'];
-        // $temp = $_FILES['file']['tmp_name'];
-        // $targeted_dir = "uploads/${file}";
-        // move_uploaded_file($temp,$targeted_dir);
 
         $data = [
             'title' => $title, 
@@ -31,6 +22,7 @@ class Post extends BaseModel {
         $sql = "INSERT INTO posts (title, description, user_id, file, created_at) VALUES (:title, :description, :user_id, :file, :created_at )";
         $query = $this->db->prepare($sql);
         $query->execute($data);
+        
     }
 
     public function singleUserAds($id)
@@ -43,14 +35,18 @@ class Post extends BaseModel {
         return $posts_of_user;
     }
 
-    public function editPost($id)
+    public function editPost(string $title, string $description, string $file)
     {
-        $title = $_POST['post_title'];
-        $description = $_POST['post_description'];
-
-        $sql = "UPDATE posts SET title = '$title', description = '$description' WHERE id = ?";
+        $data = [
+            'title' => $title, 
+            'description' => $description, 
+            'file' => $file, 
+            'created_at' => date('Y-m-d H:i:s')
+        ];
+        
+        $sql ="UPDATE posts SET title=:title, description=:description, file=:file WHERE id=:id";
         $query = $this->db->prepare($sql);
-        $query->execute([$id]);
+        $query->execute($data);
     }
 
     public function deletePost($id) 
@@ -82,9 +78,10 @@ class Post extends BaseModel {
 
     public function getOne($id)
     {
-        $sql = "SELECT * FROM posts WHERE id = ?";
+        $sql = "SELECT * FROM posts WHERE id = :id";
         $query = $this->db->prepare($sql);
-        $query->execute([$id]);
+        $query-> bindParam(':id', $id, PDO::PARAM_INT);
+        $query->execute();
 
         $post = $query->fetch(PDO::FETCH_OBJ);
         return $post;

@@ -25,7 +25,7 @@
                 
                 <input type="text" name="post_title" placeholder="Title" class="form-control"><br>
                 <textarea name="post_description" placeholder="Description" colls="30" rows="10" class="form-control"></textarea><br>
-                Select image to upload : 
+                Izaberite sliku : 
                 <input type="file" name="file"><br><br>
                 <button type="submit" name="postSubBtn" class="form-control btn btn-primary">Dodaj</button>
             </form>
