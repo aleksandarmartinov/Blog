@@ -35,16 +35,18 @@ class Post extends BaseModel {
         return $posts_of_user;
     }
 
-    public function editPost(string $title, string $description, string $file)
+    public function editPost(int $id,string $title, string $description, string $file)
     {
+        
         $data = [
-            'title' => $title, 
+            'id' => $id,
+            'title' => $title,
             'description' => $description, 
             'file' => $file, 
             'created_at' => date('Y-m-d H:i:s')
         ];
         
-        $sql ="UPDATE posts SET title=:title, description=:description, file=:file WHERE id=:id";
+        $sql ="UPDATE posts SET id=:id, title=:title, description=:description, file=:file WHERE id=:id";
         $query = $this->db->prepare($sql);
         $query->execute($data);
     }
