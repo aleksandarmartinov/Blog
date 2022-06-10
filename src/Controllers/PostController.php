@@ -110,7 +110,12 @@ class PostController extends MainController {
         $title = $_POST['post_title'] = trim(htmlspecialchars($_POST['post_title']));
         $description = $_POST['post_description'] = trim(htmlspecialchars($_POST['post_description']));
         $old_file = $edit_post->file;
-        $new_file = $_POST['file'];
+        $new_file = $_FILES['file']['name'];
+        $temp = $_FILES['file']['tmp_name'];
+        $file_explode = explode(".", $new_file);
+        $ext = end($file_explode);
+        $file =  time().".".$ext;
+
         // $file_size = $_FILES['file']['size'];
         // $allowed = array('', 'jpg', 'jpeg', 'png', 'gif');
         
@@ -149,28 +154,21 @@ class PostController extends MainController {
             exit();
         } 
       
-        if($_FILES) {
-            if (file_exists($old_file)) {
-
-            $file = $old_file;
-
+        if(! empty($new_file)) {
+            
+            unlink("uploads/".$old_file);
+            $file = $file;
+            
+            move_uploaded_file($temp,"uploads/".$file);
         }else {
 
-            unlink("uploads/".$old_file);
-            
-            $new_file = $_FILES['file']['name'];
-            $temp = $_FILES['file']['tmp_name'];
-            $file_explode = explode(".", $new_file);
-            $ext = end($file_explode);
-            $file =  time().".".$ext;
-
+            $file = $old_file;
         }
-    }
-        move_uploaded_file($temp,"uploads/".$file);
+        
         $post->editPost($id,$title, $description, $file);
         return header("Location: /");
         exit();
-               
+
     }
 
     
