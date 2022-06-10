@@ -100,8 +100,8 @@ class PostController extends MainController {
     }
 
 
-    public function editPosts($id) //ova metoda se koristi u router-u (id parametar - wild card)
-    {
+    public function editPosts($id) { //ova metoda se koristi u router-u (id parametar - wild card)
+    
 
         $post = new Post();
 
@@ -109,7 +109,8 @@ class PostController extends MainController {
         $id = $edit_post->id;
         $title = $_POST['post_title'] = trim(htmlspecialchars($_POST['post_title']));
         $description = $_POST['post_description'] = trim(htmlspecialchars($_POST['post_description']));
-        $file = $edit_post->file;
+        $old_file = $edit_post->file;
+        $new_file = $_POST['file'];
         // $file_size = $_FILES['file']['size'];
         // $allowed = array('', 'jpg', 'jpeg', 'png', 'gif');
         
@@ -147,29 +148,29 @@ class PostController extends MainController {
             return header("Location: /blog/edit_post/" . $id);
             exit();
         } 
-
-
+      
         if($_FILES) {
-        
-            if($edit_post->file) {
-                unlink("uploads/'.$edit_post");
-            }
+            if (file_exists($old_file)) {
 
-            $file = $_FILES['file']['name'];
+            $file = $old_file;
+
+        }else {
+
+            unlink("uploads/".$old_file);
+            
+            $new_file = $_FILES['file']['name'];
             $temp = $_FILES['file']['tmp_name'];
-            $file_explode = explode(".", $file);
+            $file_explode = explode(".", $new_file);
             $ext = end($file_explode);
             $file =  time().".".$ext;
 
-            move_uploaded_file($temp,"uploads/".$file);
-        }else {
-            $file = $edit_post->file;
         }
-
+    }
+        move_uploaded_file($temp,"uploads/".$file);
         $post->editPost($id,$title, $description, $file);
         return header("Location: /");
         exit();
-           
+               
     }
 
     
