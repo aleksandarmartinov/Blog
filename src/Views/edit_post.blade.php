@@ -21,7 +21,11 @@
                         unset($_SESSION['ERROR_MESSAGE'])
                     @endphp               
                 @endif
-
+                <select name="category" class="form-control form-select">
+                    @foreach ($categories as $category)
+                    <option value="{{ $category->id }}" {{ ($post->cat_id === $category->id) ? 'selected' : '' }}>{{ $category->category }}</option>               
+                    @endforeach
+                </select><br>
                 <input type="text" name="post_title" placeholder="Title" class="form-control" value="{{ $post->title }}"><br>
                 <textarea name="post_description" placeholder="Description" colls="30" rows="10" class="form-control">{{ $post->description }}</textarea><br>
                 Izaberite sliku : 

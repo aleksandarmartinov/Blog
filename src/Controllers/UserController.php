@@ -20,7 +20,7 @@ class UserController extends MainController {
 
         $user = new User();
 
-        if(isset($_POST['loginBtn'])){
+        if(isset($_POST['loginBtn'])) {
 
             $email = $_POST['login_email'] = filter_var($_POST['login_email'], FILTER_VALIDATE_EMAIL); 
             $password = $_POST['login_password'];
@@ -67,7 +67,7 @@ class UserController extends MainController {
         $user = new User();
 
     
-        if(isset($_POST['registerBtn'])){
+        if(isset($_POST['registerBtn'])) {
        
             $username = htmlspecialchars(stripslashes($_POST['register_name']));
             $email = $_POST['register_email']; 

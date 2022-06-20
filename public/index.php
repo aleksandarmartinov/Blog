@@ -38,9 +38,19 @@ $router->get('/post/{id}', '\App\Controllers\PostController@showPost');
 
 
 $router->before('GET|POST', 'blog/*', function() {
+
     if ( ! isset($_SESSION['logged_user'])) {
         return header("Location: /");
     }
+
+});
+
+$router->before('GET|POST', 'blog/add_post', function() {
+
+    if ( ! isset($_SESSION['logged_user'])) {
+        return header("Location: /");
+    }
+    
 });
 
 $router->before('GET|POST', 'blog/edit_post/{id}', function($id) {

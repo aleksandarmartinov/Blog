@@ -2,7 +2,7 @@
 .env
 /dumps
 docker-compose.yaml
-.idea/
+.idea
 /src/cache
 /public/uploads
 
