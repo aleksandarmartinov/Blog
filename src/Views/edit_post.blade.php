@@ -10,7 +10,12 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-8 offset-2">
+        <div class="col-4">
+            @if ( $post->file )
+                <div class="col-8 offset-1"><img src="/uploads/{{ $post->file }}" class="thumb img-fluid" style="width:150px; height:150px; float:left; border-radius:50%; margin-right:25px;"></div>
+            @endif 
+        </div>
+        <div class="col-8">
             <form action="/blog/edit_post/{{ $post->id }}" method="POST" enctype="multipart/form-data">
 
                 @if(isset($_SESSION['ERROR_MESSAGE']) && is_array($_SESSION['ERROR_MESSAGE']) && count($_SESSION['ERROR_MESSAGE']) >0)
@@ -21,6 +26,7 @@
                         unset($_SESSION['ERROR_MESSAGE'])
                     @endphp               
                 @endif
+                
                 <select name="category" class="form-control form-select">
                     @foreach ($categories as $category)
                     <option value="{{ $category->id }}" {{ ($post->cat_id === $category->id) ? 'selected' : '' }}>{{ $category->category }}</option>               

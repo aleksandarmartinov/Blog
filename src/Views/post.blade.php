@@ -21,9 +21,11 @@
     </div>  
     <p class="col-8 offset-2 text-center">{{ $post->description }}</p></br>
 
+    <div class="col-8 offset-4">
     @if ( $post->file )
-    <div class="col-6"><img src="/uploads/{{ $post->file }}" class="thumb img-fluid" style="width:250px; height:250px; float:left; border-radius:50%; margin-right:25px;"></div>
-    @endif   
+        <div class="col-6"><img src="/uploads/{{ $post->file }}" class="thumb img-fluid" style="width:250px; height:250px; float:left; border-radius:50%; margin-right:25px; margin-left:25px;"></div>
+    @endif
+    </div>
 
 </div>
 

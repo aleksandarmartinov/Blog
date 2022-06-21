@@ -15,7 +15,7 @@ class PostController extends MainController {
         $post = new Post();
         $categories = $post->selectAll('categories');
 
-        echo $this->blade->make('add_post', ['categories' => $categories])->render();
+        echo $this->blade->make('add_post', ['post' => $post,'categories' => $categories])->render();
         
     }
 
@@ -126,12 +126,10 @@ class PostController extends MainController {
         $old_file = $edit_post->file;
         $new_file = $_FILES['file']['name'];
         $temp = $_FILES['file']['tmp_name'];
-        $file_explode = explode(".", $new_file);
-        $ext = end($file_explode);
-        $file =  time().".".$ext;
-
-        // $file_size = $_FILES['file']['size'];
-        // $allowed = array('', 'jpg', 'jpeg', 'png', 'gif');
+        $file_size = $_FILES['file']['size'];
+        $allowed = array('', 'jpg', 'jpeg', 'png', 'gif');
+        $file_ext = pathinfo($new_file, PATHINFO_EXTENSION);
+        $file =  time().".".$file_ext;
         
         $errormsg_array = array();
         $error_exists = false;
@@ -166,6 +164,16 @@ class PostController extends MainController {
             $error_exists = true;
         }
 
+        elseif($file_size >= 1000000) {
+            $errormsg_array[] = "File size too big";
+            $error_exists = true;
+        }
+
+        elseif(! in_array($file_ext, $allowed)) {
+            $errormsg_array[] = "Wrong picture format";
+            $error_exists = true;
+        }
+
         if ($error_exists) {
             $_SESSION['ERROR_MESSAGE'] = $errormsg_array;
             session_write_close();
@@ -177,7 +185,7 @@ class PostController extends MainController {
 
             $cat_id = $new_cat;
         }else {
-
+            
             $cat_id = $cat_id;
         }
 
