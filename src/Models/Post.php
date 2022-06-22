@@ -8,6 +8,7 @@ use PDO;
 
 class Post extends BaseModel {
 
+    //create
     public function createPost(string $title, string $description, int $user_id, int $cat_id, string $file = null)
     {
 
@@ -26,6 +27,7 @@ class Post extends BaseModel {
         
     }
 
+    //svi postovi usera
     public function singleUserAds($id)
     {
 
@@ -38,6 +40,47 @@ class Post extends BaseModel {
 
     }
 
+    //samo jedan post od usera
+    public function findPostById($id)
+    {
+
+        $sql = "SELECT * FROM posts WHERE user_id = ?";
+        $query = $this->db->prepare($sql);
+        $query->execute([$id]);
+
+        $post = $query->fetch(PDO::FETCH_OBJ);
+        return $post;
+
+    }
+
+    //post po id & user_id
+    public function findPostByIdAndUid($id, $user_id)
+    {
+
+        $sql = "SELECT * FROM posts WHERE id = ? AND user_id = ?";
+        $query = $this->db->prepare($sql);
+        $query->execute([$id, $user_id]);
+
+        $post = $query->fetch(PDO::FETCH_OBJ);
+        return $post;
+
+    }
+
+    //post po svom id-u
+    public function getOne($id)
+    {
+
+        $sql = "SELECT * FROM posts WHERE id = :id";
+        $query = $this->db->prepare($sql);
+        $query-> bindParam(':id', $id, PDO::PARAM_INT);
+        $query->execute();
+
+        $post = $query->fetch(PDO::FETCH_OBJ);
+        return $post;
+
+    }
+
+    //update post
     public function editPost(int $id,string $title, string $description,int $cat_id, string $file)
     {
         
@@ -56,6 +99,7 @@ class Post extends BaseModel {
 
     }
 
+    //brisanje posta
     public function deletePost($id) 
     {
 
@@ -65,43 +109,7 @@ class Post extends BaseModel {
 
     }
 
-    public function findPostById($id)
-    {
-
-        $sql = "SELECT * FROM posts WHERE user_id = ?";
-        $query = $this->db->prepare($sql);
-        $query->execute([$id]);
-
-        $post = $query->fetch(PDO::FETCH_OBJ);
-        return $post;
-
-    }
-
-    public function findPostByIdAndUid($id, $user_id)
-    {
-
-        $sql = "SELECT * FROM posts WHERE id = ? AND user_id = ?";
-        $query = $this->db->prepare($sql);
-        $query->execute([$id, $user_id]);
-
-        $post = $query->fetch(PDO::FETCH_OBJ);
-        return $post;
-
-    }
-
-    public function getOne($id)
-    {
-
-        $sql = "SELECT * FROM posts WHERE id = :id";
-        $query = $this->db->prepare($sql);
-        $query-> bindParam(':id', $id, PDO::PARAM_INT);
-        $query->execute();
-
-        $post = $query->fetch(PDO::FETCH_OBJ);
-        return $post;
-
-    }
-
+    //sve iz bilo koje tabele
     public function selectAll($table) 
     {
 
@@ -112,19 +120,6 @@ class Post extends BaseModel {
         return $query->fetchAll(PDO::FETCH_OBJ);
         
     }
-
-    // public function getOneCat($id)
-    // {
-
-    //     $sql = "SELECT * FROM posts INNER JOIN categories ON posts.cat_id = categories.id WHERE categories.id = :id" ;
-    //     $query = $this->db->prepare($sql);
-    //     $query->bindParam(':id',$id,PDO::PARAM_INT);
-    //     $query->execute();
-
-    //     $category = $query->fetchAll(PDO::FETCH_OBJ);
-    //     return $category;
-    // }
-
 
 
 }

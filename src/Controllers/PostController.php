@@ -15,7 +15,7 @@ class PostController extends MainController {
         $post = new Post();
         $categories = $post->selectAll('categories');
 
-        echo $this->blade->make('add_post', ['post' => $post,'categories' => $categories])->render();
+        echo $this->blade->make('add_post', ['categories' => $categories])->render();
         
     }
 
@@ -31,13 +31,19 @@ class PostController extends MainController {
         $user_id = $_SESSION['logged_user']->id;
         $cat_id = $_POST['category'];
         $cat_exists = $category->getCategory($_POST['category']);
-        $file = $_FILES['file']['name'];
+        $start_file = $_FILES['file']['name'];
         $temp = $_FILES['file']['tmp_name'];
         $file_size = $_FILES['file']['size'];
         $allowed = array('', 'jpg', 'jpeg', 'png', 'gif');
-        $file_ext = pathinfo($file, PATHINFO_EXTENSION);
+        $file_ext = pathinfo($start_file, PATHINFO_EXTENSION);
         $file =  time().".".$file_ext;
-            
+        
+        if($start_file) {
+            $file = $file;
+        }else {
+            $file = "";
+        }
+
         $errormsg_array = array();
         $error_exists = false;
 
@@ -91,7 +97,8 @@ class PostController extends MainController {
             $post->createPost($title, $description, $user_id,$cat_id, $file);
             header("Location: /");
             exit();
-        } 
+        }
+         
 
     }   
 
@@ -102,6 +109,10 @@ class PostController extends MainController {
         $post = new Post();
         $result = $post->findPostByIdAndUid($id, $_SESSION['logged_user']->id);
         $categories = $post->selectAll('categories');
+
+        if (! $result) {
+            return header ("Location: /"); 
+         }
 
         echo $this->blade->make('edit_post', ['categories' => $categories,'post'=>$result])->render();
 
@@ -253,6 +264,10 @@ class PostController extends MainController {
         $result = $post->getOne($id);
         $cat_id = $post->getOne($id)->cat_id;
         $category = $category->getCategory($cat_id);
+
+        if (! $result) {
+           return header ("Location: /"); 
+        }
  
         echo $this->blade->make('post', ['post' => $result,'category' => $category])->render();
 
