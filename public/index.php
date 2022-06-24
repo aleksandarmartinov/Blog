@@ -48,7 +48,7 @@ $router->before('GET|POST', 'blog/*', function() {
 $router->before('GET|POST', 'blog/add_post', function() {
 
     if ( ! isset($_SESSION['logged_user'])) {
-        return header("Location: /");
+        return header("Location: /login");
     }
     
 });

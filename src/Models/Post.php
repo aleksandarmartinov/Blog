@@ -121,6 +121,19 @@ class Post extends BaseModel {
         
     }
 
+    //sve kategorije po id
+    public function getCategoriesByID($id)
+    {
+
+        $sql = "SELECT * FROM posts WHERE cat_id= ?";
+        $query = $this->db->prepare($sql);
+        $query->execute([$id]);
+
+        $categories = $query->fetchAll(PDO::FETCH_OBJ);
+        return $categories;
+
+    }
+
 
 }
 

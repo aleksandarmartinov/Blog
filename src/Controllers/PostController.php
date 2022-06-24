@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\MainController;
+use App\Models\User;
 use App\Models\Post;
 use App\Models\Category;
 
@@ -43,6 +44,9 @@ class PostController extends MainController {
         }else {
             $file = "";
         }
+
+        $_SESSION['title'] = $title;
+        $_SESSION['description'] = $description;
 
         $errormsg_array = array();
         $error_exists = false;
@@ -248,9 +252,13 @@ class PostController extends MainController {
     {
 
         $post = new Post();
+        $user = new User();
+        
+        $id = $post->findPostById($id)->user_id;
+        $result = $user->getUserWithId($id)->name;
         $posts = $post->singleUserAds($id);
 
-        echo $this->blade->make('user_posts', ['posts' => $posts])->render();
+        echo $this->blade->make('user_posts', ['user' => $result, 'posts' => $posts])->render();
 
     }
 

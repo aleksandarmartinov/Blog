@@ -28,8 +28,8 @@
                     <option value="{{ $category->id }}">{{ $category->category }}</option>
                 @endforeach
                 </select><br>
-                <input type="text" name="post_title" placeholder="Title" class="form-control"><br>
-                <textarea name="post_description" placeholder="Description" colls="30" rows="10" class="form-control"></textarea><br>
+                <input type="text" name="post_title" placeholder="Title" class="form-control" value="<?php echo isset($_SESSION['title']) ? $_SESSION['title'] : ''; ?>" @php unset($_SESSION['title']) @endphp><br>
+                <textarea name="post_description" placeholder="Description" colls="30" rows="10" class="form-control"><?php echo isset($_SESSION['description']) ? ($_SESSION['description']) : ''; ?> @php unset($_SESSION['description']) @endphp</textarea><br>
                 Izaberite sliku : 
                 <input type="file" name="file"><br><br>
                 <button type="submit" name="postSubBtn" class="form-control btn btn-primary">Dodaj</button>

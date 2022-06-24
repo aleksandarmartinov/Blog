@@ -11,6 +11,19 @@
 <div class="container">
     <div class="row">
         <div class="col-8 offset-2">
+            <h2 class="text-center">Kategorije</h2>
+            <ul class="list-group">
+                <li class="list-group-item list-group-item-info">
+            <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <?php echo e($category->category); ?>
+
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-8 offset-2">
 
             <?php $__currentLoopData = $posts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $post): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <?php echo e($user->getUserWithId($post->user_id)->name); ?>

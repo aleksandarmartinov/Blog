@@ -5,7 +5,7 @@
 @section('content')
 
 <div class="jumbotron text-center">
-    <h4>Posts of </h4>
+    <h4>Posts of {{ $user }}</h4>
 </div>
 
 <div class="container">
