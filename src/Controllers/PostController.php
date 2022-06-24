@@ -281,4 +281,20 @@ class PostController extends MainController {
 
     }
 
+    public function postsByCategory($id)
+    {
+        $post = new Post();
+        $user = new User();
+
+        $posts = $post->getCategoriesByID($id);
+
+        if (! $posts) {
+            return header ("Location: /"); 
+         }
+
+        echo $this->blade->make('category', ['user' => $user,'posts' => $posts])->render();
+
+    }
+    
+
 }

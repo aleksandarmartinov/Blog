@@ -11,21 +11,6 @@
 <div class="container">
     <div class="row">
         <div class="col-8 offset-2">
-            <h2 class="text-center">Kategorije</h2><br>
-                @foreach ($categories as $category)
-                    <div><a href="/category/{{ $category->id }}">
-                        <ul class="list-group">
-                            <li class="list-group-item list-group-item-info">
-                                {{ $category->category }}
-                            </li>
-                        </ul>
-                    </div>
-                @endforeach
-        </div>
-    </div><br><br>
-
-    <div class="row">
-        <div class="col-8 offset-2">
 
             @foreach($posts as $post)
                 <div class="card mb-3">
@@ -47,5 +32,3 @@
 </div>
 
 @endsection
-
-

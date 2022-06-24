@@ -121,7 +121,7 @@ class Post extends BaseModel {
         
     }
 
-    //sve kategorije po id
+    //svi postovi po id kategorije
     public function getCategoriesByID($id)
     {
 

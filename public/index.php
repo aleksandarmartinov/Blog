@@ -35,6 +35,7 @@ $router->post('blog/post/{id}/delete', '\App\Controllers\PostController@deletePo
 
 $router->get('/user_posts/{id}', '\App\Controllers\PostController@userPosts');
 $router->get('/post/{id}', '\App\Controllers\PostController@showPost');
+$router->get('/category/{id}', '\App\Controllers\PostController@postsByCategory');
 
 
 $router->before('GET|POST', 'blog/*', function() {
