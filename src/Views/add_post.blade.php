@@ -5,7 +5,7 @@
 @section('content')
 
 <div class="jumbotron text-center">
-    <h4>Dodajte Post</h4>
+    <h4>Add Your Post</h4>
 </div>
 
 <div class="container">
@@ -30,9 +30,9 @@
                 </select><br>
                 <input type="text" name="post_title" placeholder="Title" class="form-control" value="<?php echo isset($_SESSION['title']) ? $_SESSION['title'] : ''; ?>" @php unset($_SESSION['title']) @endphp><br>
                 <textarea name="post_description" placeholder="Description" colls="30" rows="10" class="form-control"><?php echo isset($_SESSION['description']) ? ($_SESSION['description']) : ''; ?> @php unset($_SESSION['description']) @endphp</textarea><br>
-                Izaberite sliku : 
+                Choose your picture : 
                 <input type="file" name="file"><br><br>
-                <button type="submit" name="postSubBtn" class="form-control btn btn-primary">Dodaj</button>
+                <button type="submit" name="postSubBtn" class="form-control btn btn-primary">Submit</button>
             </form>
         </div>
     </div>

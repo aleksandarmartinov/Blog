@@ -5,7 +5,7 @@
 @section('content')
 
 <div class="jumbotron text-center">
-    <h4>Izmenite Vas Post</h4>
+    <h4>Edit your post</h4>
 </div>
 
 <div class="container">
@@ -34,7 +34,7 @@
                 </select><br>
                 <input type="text" name="post_title" placeholder="Title" class="form-control" value="{{ $post->title }}"><br>
                 <textarea name="post_description" placeholder="Description" colls="30" rows="10" class="form-control">{{ $post->description }}</textarea><br>
-                Izaberite sliku : 
+                Choose your picture : 
                 <input type="file" name="file"><br><br>
                 <button type="submit" name="editBtn" class="form-control btn btn-warning">Edit</button>
             </form>

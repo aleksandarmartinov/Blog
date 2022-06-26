@@ -3,7 +3,7 @@
         <ul class="navbar-nav ml-auto">
             <li>
                 @if(isset($_SESSION['logged_user']))
-                    <li><a href="/blog/add_post" class="nav-link">Dodaj Post</a></li>
+                    <li><a href="/blog/add_post" class="nav-link">Add Post</a></li>
                     <li><a href="/logout" class="nav-link">Logout</a></li>
                     <li><a href="/blog/user" class="btn btn-warning">{{ $_SESSION['logged_user']->name }}</a></li>
                 @else

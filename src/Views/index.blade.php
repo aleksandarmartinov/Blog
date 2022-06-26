@@ -5,28 +5,28 @@
 @section('content')
 
 <div class="jumbotron text-center">
-    <h4>Posts</h4>
+    <h4>Welcome to Blogger</h4>
 </div>
 
 <div class="container">
     <div class="row">
         <div class="col-8 offset-2">
-            <h2 class="text-center">Kategorije</h2><br>
-                @foreach ($categories as $category)
-                    <div><a href="/category/{{ $category->id }}">
+            <h2 class="text-center">Categories</h2><br>
+            @foreach ($categories as $category)
+                <div><a href="/category/{{ $category->id }}">
                         <ul class="list-group">
                             <li class="list-group-item list-group-item-info">
                                 {{ $category->category }}
                             </li>
                         </ul>
-                    </div>
-                @endforeach
+                    </a>
+                </div>
+            @endforeach
         </div>
     </div><br><br>
-
+    <h2 class="text-center">All Posts</h2><br>
     <div class="row">
         <div class="col-8 offset-2">
-
             @foreach($posts as $post)
                 <div class="card mb-3">
                     <div class="card-header"><a href="/post/{{ $post->id }}"><h3>{{ $post->title }}</h3></a></div>
@@ -41,7 +41,6 @@
                     </div>
                 </div>
             @endforeach
-
         </div>
     </div>
 </div>
