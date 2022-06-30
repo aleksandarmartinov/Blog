@@ -134,6 +134,20 @@ class Post extends BaseModel {
 
     }
 
+    //dodaj comment
+    public function addComment($user_id, $post_id, $comment)
+    {
+        $data = [
+            'user_id' => $user_id, 
+            'post_id' => $post_id, 
+            'comment' => $comment, 
+            'created_at' => date('Y-m-d H:i:s')
+        ];
+    
+        $sql = "INSERT INTO comments (user_id, post_id, comment, created_at) VALUES (:user_id, :post_id, :comment, :created_at)";
+        $query = $this->db->prepare($sql);
+        $query->execute($data);
+    }
 
 }
 

@@ -6,11 +6,13 @@ use App\Controllers\MainController;
 use App\Models\User;
 use App\Models\Post;
 use App\Models\Category;
+use App\Models\Comment;
 
 
 
 class PostController extends MainController {
 
+    //view za dodavanje posta
     public function postView() 
     {
         $post = new Post();
@@ -20,7 +22,7 @@ class PostController extends MainController {
         
     }
 
-
+    //kreiranje posta
     public function createPost() 
     {
 
@@ -106,7 +108,7 @@ class PostController extends MainController {
 
     }   
 
-    
+    //view za edit
     public function editPostView($id)
     {
 
@@ -122,7 +124,7 @@ class PostController extends MainController {
 
     }
 
-
+    //edit
     public function editPosts($id) { //ova metoda se koristi u router-u (id parametar - wild card)
     
 
@@ -221,7 +223,7 @@ class PostController extends MainController {
 
     }
 
-    
+    //brisanje
     public function deletePost($id) 
     {
 
@@ -232,7 +234,7 @@ class PostController extends MainController {
 
     }
 
-
+    //single user nalog
     public function singleUserPosts() 
     {
 
@@ -247,7 +249,7 @@ class PostController extends MainController {
 
     }
 
-
+    //view za sve postove od jednog usera
     public function userPosts($id)
     {
 
@@ -262,25 +264,63 @@ class PostController extends MainController {
 
     }
 
-
+    //view jednog posta sa komentarima
     public function showPost($id)
     {
 
         $post = new Post();
+        $user = new User();
         $category = new Category();
+        $comment = new Comment();
 
-        $result = $post->getOne($id);
+        $post_exists = $post->getOne($id);
         $cat_id = $post->getOne($id)->cat_id;
         $category = $category->getCategory($cat_id);
 
-        if (! $result) {
+        $comments = $comment->getPostComments($id);
+
+        $inner_id = $post_exists->id;
+        $objects = $comment->innerJoin($inner_id);
+        // $persons = $objects->user_id;
+
+
+
+
+        // $id = $comment->getPostComments($id);
+        // $commenter = $user->getUserWithId($id);
+        // // $commenter_name = $commenter[]->name;
+        print_r($objects);
+        exit;
+
+        if (! $post_exists) {
            return header ("Location: /"); 
         }
  
-        echo $this->blade->make('post', ['post' => $result,'category' => $category])->render();
+        echo $this->blade->make('post', ['post' => $post_exists,'category' => $category, 'comments' => $comments])->render();
 
     }
 
+    //dodaj comment na post
+    public function postComment($id)
+    {
+        $post = new Post();
+
+        $user_id = $_SESSION['logged_user']->id;
+        $targeted_post = $post->getOne($id);
+        $post_id = $targeted_post->id;
+        $comment = $_POST['comment'];
+        
+        if(! $_SESSION['logged_user']) {
+            return header ("Location: /"); 
+        }else {
+            $post->addComment($user_id, $post_id, $comment);
+            return header ("Location: /");
+            exit();
+        }   
+
+    }
+
+    //prikaz postova po kategoriji
     public function postsByCategory($id)
     {
         $post = new Post();
@@ -290,7 +330,7 @@ class PostController extends MainController {
 
         if (! $posts) {
             return header ("Location: /"); 
-         }
+        }
 
         echo $this->blade->make('category', ['user' => $user,'posts' => $posts])->render();
 

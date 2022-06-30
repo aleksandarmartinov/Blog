@@ -20,6 +20,7 @@ class IndexController extends MainController {
         $categories = $category->selectAll('categories');      
 
         echo $this->blade->make('index', ['posts' => $posts, 'user' => $user, 'categories' => $categories])->render();
+        
     }
 
 }

@@ -11,7 +11,9 @@ class UserController extends MainController {
 
     public function loginView()
     {
-        echo $this->blade->make('login', [])->render();    
+
+        echo $this->blade->make('login', [])->render();
+
     }
 
 
@@ -57,7 +59,9 @@ class UserController extends MainController {
 
     public function registerView()
     {
+
         echo $this->blade->make('register', [])->render();
+        
     }
     
 
@@ -127,9 +131,9 @@ class UserController extends MainController {
     public function logout() 
     {
 
-    session_start();
-    session_destroy();
-    header("Location: /");
+        session_start();
+        session_destroy();
+        header("Location: /");
 
     }
     
