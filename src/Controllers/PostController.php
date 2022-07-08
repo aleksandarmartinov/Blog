@@ -269,7 +269,6 @@ class PostController extends MainController {
     {
 
         $post = new Post();
-        $user = new User();
         $category = new Category();
         $comment = new Comment();
 
@@ -278,19 +277,6 @@ class PostController extends MainController {
         $category = $category->getCategory($cat_id);
 
         $comments = $comment->getPostComments($id);
-
-        $inner_id = $post_exists->id;
-        $objects = $comment->innerJoin($inner_id);
-        // $persons = $objects->user_id;
-
-
-
-
-        // $id = $comment->getPostComments($id);
-        // $commenter = $user->getUserWithId($id);
-        // // $commenter_name = $commenter[]->name;
-        print_r($objects);
-        exit;
 
         if (! $post_exists) {
            return header ("Location: /"); 
@@ -310,6 +296,8 @@ class PostController extends MainController {
         $post_id = $targeted_post->id;
         $comment = $_POST['comment'];
         
+        //validacija komentara
+
         if(! $_SESSION['logged_user']) {
             return header ("Location: /"); 
         }else {
