@@ -7,27 +7,30 @@ use App\Models\User;
 use App\Models\Post;
 use App\Models\Category;
 use App\Models\Comment;
+use App\Models\Tag;
 
 
 
 class PostController extends MainController {
 
     //view za dodavanje posta
-    public function postView() 
+    public function postView()
     {
         $post = new Post();
         $categories = $post->selectAll('categories');
 
         echo $this->blade->make('add_post', ['categories' => $categories])->render();
-        
+
     }
 
     //kreiranje posta
-    public function createPost() 
+    public function createPost()
     {
 
         $post = new Post();
+        $tag = new Tag();
         $category = new Category();
+
 
         $title = $_POST['post_title'] = trim(htmlspecialchars($_POST['post_title']));
         $description = $_POST['post_description'] = trim(htmlspecialchars($_POST['post_description']));
@@ -40,7 +43,7 @@ class PostController extends MainController {
         $allowed = array('', 'jpg', 'jpeg', 'png', 'gif');
         $file_ext = pathinfo($start_file, PATHINFO_EXTENSION);
         $file =  time().".".$file_ext;
-        
+
         if($start_file) {
             $file = $file;
         }else {
@@ -57,7 +60,7 @@ class PostController extends MainController {
             $errormsg_array[] = "Title required";
             $error_exists = true;
         }
-            
+
         elseif (!filter_var(htmlspecialchars($_POST['post_title']))) {
             $errormsg_array[] = "Title must be correctly written";
             $error_exists = true;
@@ -98,15 +101,24 @@ class PostController extends MainController {
             session_write_close();
             header("Location: /blog/add_post");
             exit();
-        } else { 
-            move_uploaded_file($temp,"uploads/".$file);
-            $post->createPost($title, $description, $user_id,$cat_id, $file);
-            header("Location: /");
-            exit();
         }
-         
 
-    }   
+        move_uploaded_file($temp,"uploads/".$file);
+        $newPost = $post->createPost($title, $description, $user_id,$cat_id, $file);
+
+        if(isset($_POST['tags'])) {
+
+            $namesArray = array_map(function($e) { return strtolower(trim($e));}, explode(",", $_POST['tags']));
+            $tags = $tag->getOrCreate($namesArray);
+            $post->attachTags($newPost, $tags);
+
+        }
+
+        header("Location: /");
+        exit();
+
+
+    }
 
     //view za edit
     public function editPostView($id)
@@ -117,7 +129,7 @@ class PostController extends MainController {
         $categories = $post->selectAll('categories');
 
         if (! $result) {
-            return header ("Location: /"); 
+            return header ("Location: /");
          }
 
         echo $this->blade->make('edit_post', ['categories' => $categories,'post'=>$result])->render();
@@ -126,7 +138,7 @@ class PostController extends MainController {
 
     //edit
     public function editPosts($id) { //ova metoda se koristi u router-u (id parametar - wild card)
-    
+
 
         $post = new Post();
         $category = new Category();
@@ -135,11 +147,11 @@ class PostController extends MainController {
         $id = $edit_post->id;
         $title = $_POST['post_title'] = trim(htmlspecialchars($_POST['post_title']));
         $description = $_POST['post_description'] = trim(htmlspecialchars($_POST['post_description']));
-        
+
         $cat_exists = $category->getCategory($_POST['category']);
         $cat_id = $edit_post->cat_id;
         $new_cat = $_POST['category'];
-        
+
         $old_file = $edit_post->file;
         $new_file = $_FILES['file']['name'];
         $temp = $_FILES['file']['tmp_name'];
@@ -147,7 +159,7 @@ class PostController extends MainController {
         $allowed = array('', 'jpg', 'jpeg', 'png', 'gif');
         $file_ext = pathinfo($new_file, PATHINFO_EXTENSION);
         $file =  time().".".$file_ext;
-        
+
         $errormsg_array = array();
         $error_exists = false;
 
@@ -170,7 +182,7 @@ class PostController extends MainController {
             $errormsg_array[] = "Please post something";
             $error_exists = true;
         }
-    
+
         elseif (!filter_var(htmlspecialchars($_POST['post_description']))) {
             $errormsg_array[] = "Post must be correctly written";
             $error_exists = true;
@@ -196,27 +208,27 @@ class PostController extends MainController {
             session_write_close();
             return header("Location: /blog/edit_post/" . $id);
             exit();
-        } 
-      
+        }
+
         if($_POST['category']) {
 
             $cat_id = $new_cat;
         }else {
-            
+
             $cat_id = $cat_id;
         }
 
         if(! empty($new_file)) {
-            
+
             unlink("uploads/".$old_file);
             $file = $file;
-            
+
             move_uploaded_file($temp,"uploads/".$file);
         }else {
 
             $file = $old_file;
         }
-        
+
         $post->editPost($id,$title, $description,$cat_id, $file);
         return header("Location: /");
         exit();
@@ -224,18 +236,18 @@ class PostController extends MainController {
     }
 
     //brisanje
-    public function deletePost($id) 
+    public function deletePost($id)
     {
 
         $post = new Post();
         $post->deletePost($id);
-       
+
         return header("Location: /blog/user");
 
     }
 
     //single user nalog
-    public function singleUserPosts() 
+    public function singleUserPosts()
     {
 
         $post = new Post();
@@ -255,7 +267,7 @@ class PostController extends MainController {
 
         $post = new Post();
         $user = new User();
-        
+
         $id = $post->findPostById($id)->user_id;
         $result = $user->getUserWithId($id)->name;
         $posts = $post->singleUserAds($id);
@@ -279,9 +291,9 @@ class PostController extends MainController {
         $comments = $comment->getPostComments($id);
 
         if (! $post_exists) {
-           return header ("Location: /"); 
+           return header ("Location: /");
         }
- 
+
         echo $this->blade->make('post', ['post' => $post_exists,'category' => $category, 'comments' => $comments])->render();
 
     }
@@ -295,16 +307,16 @@ class PostController extends MainController {
         $targeted_post = $post->getOne($id);
         $post_id = $targeted_post->id;
         $comment = $_POST['comment'];
-        
+
         //validacija komentara
 
         if(! $_SESSION['logged_user']) {
-            return header ("Location: /"); 
+            return header ("Location: /");
         }else {
             $post->addComment($user_id, $post_id, $comment);
             return header ("Location: /");
             exit();
-        }   
+        }
 
     }
 
@@ -317,12 +329,12 @@ class PostController extends MainController {
         $posts = $post->getCategoriesByID($id);
 
         if (! $posts) {
-            return header ("Location: /"); 
+            return header ("Location: /");
         }
 
         echo $this->blade->make('category', ['user' => $user,'posts' => $posts])->render();
 
     }
-    
+
 
 }

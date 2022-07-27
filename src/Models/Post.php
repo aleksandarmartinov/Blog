@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Models;
 
@@ -9,22 +9,23 @@ use PDO;
 class Post extends BaseModel {
 
     //create
-    public function createPost(string $title, string $description, int $user_id, int $cat_id, string $file = null)
+    public function createPost(string $title, string $description, int $user_id, int $cat_id, string $file = null): \stdClass
     {
 
         $data = [
-            'title' => $title, 
-            'description' => $description, 
+            'title' => $title,
+            'description' => $description,
             'user_id' => $user_id,
             'cat_id' => $cat_id,
-            'file' => $file, 
+            'file' => $file,
             'created_at' => date('Y-m-d H:i:s')
         ];
 
         $sql = "INSERT INTO posts (title, description, user_id, cat_id, file, created_at) VALUES (:title, :description, :user_id, :cat_id, :file, :created_at )";
         $query = $this->db->prepare($sql);
         $query->execute($data);
-        
+        return $this->getOne($this->db->lastInsertId());
+
     }
 
     //svi postovi usera
@@ -83,16 +84,16 @@ class Post extends BaseModel {
     //update post
     public function editPost(int $id,string $title, string $description,int $cat_id, string $file)
     {
-        
+
         $data = [
             'id' => $id,
             'title' => $title,
-            'description' => $description, 
+            'description' => $description,
             'cat_id' => $cat_id,
-            'file' => $file, 
+            'file' => $file,
             'created_at' => date('Y-m-d H:i:s')
         ];
-        
+
         $sql ="UPDATE posts SET id=:id, title=:title, description=:description, cat_id=:cat_id, file=:file WHERE id=:id";
         $query = $this->db->prepare($sql);
         $query->execute($data);
@@ -100,25 +101,25 @@ class Post extends BaseModel {
     }
 
     //brisanje posta
-    public function deletePost($id) 
+    public function deletePost($id)
     {
 
         $sql = "DELETE FROM posts WHERE id = ?";
         $query = $this->db->prepare($sql);
-        $query->execute([$id]); 
+        $query->execute([$id]);
 
     }
 
     //sve iz bilo koje tabele
-    public function selectAll($table) 
+    public function selectAll($table)
     {
 
         $sql = "SELECT * FROM {$table}";
         $query = $this->db->prepare($sql);
         $query->execute();
-        
+
         return $query->fetchAll(PDO::FETCH_OBJ);
-        
+
     }
 
     //svi postovi po id kategorije
@@ -138,15 +139,26 @@ class Post extends BaseModel {
     public function addComment($user_id, $post_id, $comment)
     {
         $data = [
-            'user_id' => $user_id, 
-            'post_id' => $post_id, 
-            'comment' => $comment, 
+            'user_id' => $user_id,
+            'post_id' => $post_id,
+            'comment' => $comment,
             'created_at' => date('Y-m-d H:i:s')
         ];
-    
+
         $sql = "INSERT INTO comments (user_id, post_id, comment, created_at) VALUES (:user_id, :post_id, :comment, :created_at)";
         $query = $this->db->prepare($sql);
         $query->execute($data);
+    }
+
+    public function attachTags(\stdClass $post, array $tags)
+    {
+        foreach ($tags as $tag) {
+
+            $sql = "INSERT INTO post_tag (post_id, tag_id) VALUES (?, ?)";
+            $query = $this->db->prepare($sql);
+            $query->execute([$post->id, $tag->id]);
+
+        }
     }
 
 }
