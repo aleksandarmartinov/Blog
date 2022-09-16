@@ -150,6 +150,7 @@ class Post extends BaseModel {
         $query->execute($data);
     }
 
+    //dodaj tag na post
     public function attachTags(\stdClass $post, array $tags)
     {
         foreach ($tags as $tag) {
